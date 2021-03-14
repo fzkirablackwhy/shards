@@ -1,5 +1,5 @@
 <template>
-  <div id="v-model-select-dynamic" class="demo">
+  <div>
     <select v-model="selectedArmor">
       <option v-for="option in armorOptions" :value="option.value" :key="option.value">
         {{ option.text }}
@@ -15,8 +15,7 @@
         {{ option.text }}
       </option>
     </select>
-    <!-- <pre v-if="selectedArmor === 'leather'">Custom name: {{ customCarrierName }}</pre> -->
-    <div>{{ getArmorCharacterictics() }}</div>
+    <div>{{ getWeaponCharacteristics() }}</div>
   </div>
 </template>
 
@@ -24,26 +23,25 @@
 /* eslint-disable import/no-extraneous-dependencies */
 
 import { defineComponent } from '@vue/runtime-core';
-import { Options, Vue } from 'vue-class-component';
-import { ArmorFactory } from '../database/main';
+import { ArmorFactory, WeaponFactory } from '../database/main';
 import {
   characteristicsOptions,
   armorOptions,
   leatherMaterialOptions,
-  matelMaterialOptions,
+  metalMaterialOptions,
 } from './options';
 
+console.log(WeaponFactory.createWeapon('oneHandedSpear', 'cuprum'));
 export default defineComponent({
-  name: 'HelloWorld',
+  name: 'Armor',
   computed: {
-    // a computed getter
     armorMaterials() {
       const type = this.selectedArmor;
       switch (type) {
         case 'leather':
           return leatherMaterialOptions;
         default:
-          return matelMaterialOptions;
+          return metalMaterialOptions;
       }
     },
   },
@@ -51,15 +49,17 @@ export default defineComponent({
     onSelect() {
       // Object.values(characteristicsOptions).forEach(key => console.log(key));
     },
-    getArmorCharacterictics() {
+    getWeaponCharacteristics() {
       const armor = ArmorFactory.createArmor(
         this.selectedArmor,
         this.selectedMaterial[this.selectedArmor] as TLeatherMaterial | TMetalMaterial,
       );
 
-      return characteristicsOptions.map(
-        ({ value, text }) => `${text} ${armor[value as keyof TCharacteristicsSum]}`,
-      );
+      return characteristicsOptions
+        .map(
+          ({ value, text }) => `${text} ${armor.armorCharacteristics[value as keyof TDamageType]}`,
+        )
+        .join(', ');
     },
   },
   data() {
@@ -72,12 +72,13 @@ export default defineComponent({
         lamellar: 'cuprum',
         mountainPattern: 'cuprum',
       },
-      armorOptions: [...armorOptions],
+      armorOptions,
     };
   },
 });
 </script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
+
 <style scoped>
 h3 {
   margin: 40px 0 0;

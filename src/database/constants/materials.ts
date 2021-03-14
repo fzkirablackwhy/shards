@@ -1,9 +1,10 @@
-export const METAL_MATERIALS_CHARACTERISTICS: {
+type TMetalMaterialCharacteristics = {
   [key in TMetalMaterial]: {
     armorEffect: TDamageType;
     weaponEffect: TDamageType;
   };
-} = {
+};
+export const METAL_MATERIALS_CHARACTERISTICS: TMetalMaterialCharacteristics = {
   cuprum: {
     armorEffect: {
       choppingDamage: -5,

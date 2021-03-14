@@ -1,15 +1,18 @@
 <template>
   <img alt="Vue logo" src="./assets/logo.png" />
-  <HelloWorld msg="Welcome to Your Vue.js App" />
+  <Armor msg="Welcome to Your Vue.js App" />
+  <Weapon />
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue';
+import Armor from './components/Armor.vue';
+import Weapon from './components/Weapon.vue';
 
 export default {
   name: 'App',
   components: {
-    HelloWorld,
+    Armor,
+    Weapon,
   },
 };
 </script>

@@ -3,13 +3,12 @@ export declare global {
 
   type TDamageType = { [key in DamageTypeKeys]?: number };
 
-  type TCharacteristicsSum = {
-    type?: string;
-  } & TDamageType &
-    TMaterialCharacteristics;
-
-  type TMaterialCharacteristics = {
-    material?: string;
+  type TCharacteristicsSum<T, M> = {
+    type: T;
+    material: M;
+    name?: string;
+    materialCharacteristics: TDamageType;
+    materials?: string[];
   };
 
   type TArmorType = 'leather' | 'chain' | 'lamellar' | 'mountainPattern';
@@ -17,9 +16,16 @@ export declare global {
   type TLeatherMaterial = 'cow' | 'horse' | 'elephant';
   type TMetalMaterial = 'cuprum' | 'bronze' | 'iron' | 'steel' | 'carbon';
 
-  type MaterialByType<T> = T extends 'leather'
-    ? TLeatherMaterial
-    : T extends 'chain'
-    ? TMetalMaterial
-    : never;
+  type TWeaponType =
+    | 'twohandedHammer'
+    | 'twoHandedSpear'
+    | 'oneHandedSpear'
+    | 'oneHandedSword'
+    | 'twoHandedSword'
+    | 'oneHandedAxe'
+    | 'twoHandedAxe'
+    | 'oneHandedClub'
+    | 'twoHandedClub';
+
+  type ArmorMaterialByType<T> = T extends 'leather' ? TLeatherMaterial : TMetalMaterial;
 }

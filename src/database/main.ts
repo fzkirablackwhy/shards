@@ -1,74 +1,31 @@
-/* eslint-disable class-methods-use-this */
-/* eslint-disable consistent-return */
-import { calculateDamage } from './utils/utils';
-import { LeatherArmorFactory } from './LeatherArmor';
-import { DamageType } from './DamageType';
-import { ChainArmorFactory } from './ChainArmor';
+import { LeatherArmor } from './LeatherArmor';
+import { Weapon } from './Weapon';
+import { MetalArmor } from './MetalArmor';
 
 export class ArmorFactory {
-  static createArmor<T extends TArmorType, U extends MaterialByType<T>>(type: T, material: U) {
+  static createArmor<T extends TArmorType, M extends ArmorMaterialByType<T>>(type: T, material: M) {
     if (!type) {
       throw new Error('Тип данной брони еще не существует!');
     }
+
     switch (type) {
       case 'leather':
-        return new AbstractLeatherArmor(type, material as TLeatherMaterial);
-      // case 'chain':
-      //   return new AbstractMetalArmor(type, material as TMetalMaterial);
-      // case 'lamellar':
-      //   return new AbstractMetalArmor(type, material as TMetalMaterial);
-      // case 'mountainPattern':
-      //   return new AbstractMetalArmor(type, material as TMetalMaterial);
-      // case 'watterWalkers':
-      //   return new AbstractMetalArmor(type, material as TMetalMaterial);
+        return new LeatherArmor(type, material as TLeatherMaterial);
       default:
-        return new AbstractMetalArmor(type, material as TMetalMaterial);
+        return new MetalArmor(type, material as TMetalMaterial);
     }
   }
 }
 
-class CharacteristicsSum extends DamageType implements TCharacteristicsSum {
-  material: string;
-  type: string;
-
-  constructor(type: TArmorType, options: TCharacteristicsSum) {
-    super(options);
-    this.type = type;
-    this.material = options.material ?? '';
-  }
-
-  describe() {
-    console.log(
-      `Привет, я ${this.type} ${this.material} броня и мои статистики -
-        колющий урон ${this.trustDamage}
-        режущий урон ${this.сuttingDamage}
-        рубящий урон ${this.choppingDamage}
-        дробящий урон ${this.crushingDamage}
-        `,
-    );
-  }
-}
-
-class AbstractLeatherArmor extends CharacteristicsSum {
-  constructor(type: TArmorType, material: TLeatherMaterial) {
-    const { material: _material, ...restMaterialStats } = LeatherArmorFactory.createLeatherArmor(
-      material,
-    );
-
-    super(type, {
-      material,
-      ...calculateDamage(type, restMaterialStats),
-    });
-  }
-}
-class AbstractMetalArmor extends CharacteristicsSum {
-  constructor(type: TArmorType, material: TMetalMaterial) {
-    const { material: _material, ...restMaterialStats } = ChainArmorFactory.createChainArmor(
-      material,
-    );
-    super(type, {
-      material,
-      ...calculateDamage(type, restMaterialStats),
-    });
+export class WeaponFactory {
+  static createWeapon<T extends TWeaponType, U extends TMetalMaterial>(type: T, material: U) {
+    if (!type) {
+      throw new Error('Вид данного оружия не существует!');
+    }
+    // two-handed/one-handed
+    switch (type) {
+      default:
+        return new Weapon<T>(type, material);
+    }
   }
 }

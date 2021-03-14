@@ -41,10 +41,49 @@ export const leatherMaterialOptions = [
   { text: 'Слоновья кожа', value: 'elephant' },
 ];
 
-export const matelMaterialOptions = [
+export const metalMaterialOptions = [
   { text: 'Медь', value: 'cuprum' },
   { text: 'Бронза', value: 'bronze' },
   { text: 'Железо', value: 'iron' },
   { text: 'Сталь', value: 'steel' },
   { text: 'Высокоуглеродистая сталь', value: 'carbon' },
+];
+
+export const weaponOptions: { value: TWeaponType; text: string }[] = [
+  {
+    value: 'oneHandedAxe',
+    text: 'одноручный топор',
+  },
+  {
+    value: 'twoHandedAxe',
+    text: 'двуручный топор',
+  },
+  {
+    value: 'oneHandedClub',
+    text: 'одноручная дубина',
+  },
+  {
+    value: 'twoHandedClub',
+    text: 'двуручная дубина',
+  },
+  {
+    value: 'oneHandedSpear',
+    text: 'одноручное копье',
+  },
+  {
+    value: 'twoHandedSpear',
+    text: 'одноручное копье',
+  },
+  {
+    value: 'twohandedHammer',
+    text: 'двуручный молот',
+  },
+  {
+    value: 'oneHandedSword',
+    text: 'одноручный меч',
+  },
+  {
+    value: 'twoHandedSword',
+    text: 'двуручный меч',
+  },
 ];

@@ -1,5 +1,6 @@
 <template>
   <div>
+    Манекен
     <select v-model="selectedArmor">
       <option v-for="option in armorOptions" :value="option.value" :key="option.value">
         {{ option.text }}
@@ -23,7 +24,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
 
 import { defineComponent } from '@vue/runtime-core';
-import { ArmorFactory, WeaponFactory } from '../database/main';
+import { ArmorFactory } from '../database/main';
 import {
   characteristicsOptions,
   armorOptions,
@@ -32,7 +33,7 @@ import {
 } from './options';
 
 export default defineComponent({
-  name: 'Armor',
+  name: 'Dummy',
   computed: {
     armorMaterials() {
       const type = this.selectedArmor;

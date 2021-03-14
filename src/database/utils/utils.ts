@@ -5,6 +5,7 @@ import {
 } from '../constants/materials';
 import { WEAPON_CHARACTERISTICS } from '../constants/weapon';
 
+const damageTypeKeys = ['trustDamage', 'сuttingDamage', 'choppingDamage', 'crushingDamage'];
 const getRandomValue = (min: number, max: number) =>
   Math.floor(min + Math.random() * (max + 1 - min));
 
@@ -24,7 +25,7 @@ export const getCharacteristicsByMaterial = <M extends TLeatherMaterial | TMetal
 
 export const getArmorCharacteristics = (type: TArmorType, materialStats: TDamageType) => {
   // вынести ключи отдельно
-  return Object.keys(ARMOR_CHARACTERISTICS[type]).reduce((accumulator, key) => {
+  return damageTypeKeys.reduce((accumulator, key) => {
     const value =
       ARMOR_CHARACTERISTICS[type][key as DamageTypeKeys] +
       Number(materialStats[key as DamageTypeKeys] ?? 0);
@@ -36,16 +37,22 @@ export const getArmorCharacteristics = (type: TArmorType, materialStats: TDamage
 };
 
 export const getWeaponCharacteristics = (type: TWeaponType, materialStats: TDamageType) => {
-  return Object.keys(ARMOR_CHARACTERISTICS.chain).reduce((accumulator, key) => {
-    const weaponCharacteristics = WEAPON_CHARACTERISTICS[type][key as DamageTypeKeys];
-    if (!WEAPON_CHARACTERISTICS[type]) {
-      throw new Error('Досвидос');
+  if (!WEAPON_CHARACTERISTICS[type]) {
+    throw new Error('Досвидос');
+  }
+  return damageTypeKeys.reduce((accumulator, key) => {
+    let value = 0;
+    if (key in WEAPON_CHARACTERISTICS[type]) {
+      const weaponCharacteristics = WEAPON_CHARACTERISTICS[type][key as DamageTypeKeys];
+
+      const randomDamage = getRandomValue(
+        weaponCharacteristics?.from ?? 0,
+        weaponCharacteristics?.to ?? 0,
+      );
+
+      value = randomDamage + Number(materialStats[key as DamageTypeKeys] ?? 0);
     }
-    const randomDamage = getRandomValue(
-      weaponCharacteristics?.from ?? 0,
-      weaponCharacteristics?.to ?? 0,
-    );
-    const value = randomDamage + Number(materialStats[key as DamageTypeKeys] ?? 0);
+
     return {
       [key]: isNegativeNum(value) ? 0 : value,
       ...accumulator,

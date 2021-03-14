@@ -15,7 +15,7 @@
         {{ option.text }}
       </option>
     </select>
-    <div>{{ getArmorCharacterictics() }}</div>
+    <div>{{ getWeaponCharacteristics() }}</div>
   </div>
 </template>
 
@@ -38,14 +38,17 @@ export default defineComponent({
     onSelect() {
       // Object.values(characteristicsOptions).forEach(key => console.log(key));
     },
-    getArmorCharacterictics() {
+    getWeaponCharacteristics() {
       const weapon = WeaponFactory.createWeapon(this.selectedWeapon, this.selectedMaterial);
 
+      const weaponCharacteristics = weapon.getWeaponCharacteristics();
+
+      console.log(weaponCharacteristics);
       return characteristicsOptions
         .map(
           ({ value, text }) =>
             // тут другой тип
-            `${text} ${weapon.weaponCharacteristics[value as keyof TDamageType]}`,
+            `${text} ${weaponCharacteristics[value as keyof TDamageType]}`,
         )
         .join(', ');
     },

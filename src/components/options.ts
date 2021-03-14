@@ -22,7 +22,7 @@ export const characteristicsOptions = [
   { value: 'trustDamage', text: 'колющий урон' },
   { value: 'choppingDamage', text: 'рубящий урон' },
   {
-    value: 'choppingDamage',
+    value: 'crushingDamage',
     text: 'дробящий урон',
   },
   {

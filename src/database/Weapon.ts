@@ -1,5 +1,5 @@
 import { CharacteristicsSum } from './CharacteristicsSum';
-import { getWeaponCharacteristics } from './utils/utils';
+import { getWeaponCharacteristics as getWeaponCharacteristicsUtil } from './utils/utils';
 
 export class Weapon<T extends TWeaponType> extends CharacteristicsSum<T, TMetalMaterial> {
   constructor(type: T, material: TMetalMaterial) {
@@ -8,9 +8,10 @@ export class Weapon<T extends TWeaponType> extends CharacteristicsSum<T, TMetalM
     this.name = 'weapon';
   }
 
-  get weaponCharacteristics() {
+  getWeaponCharacteristics() {
+    console.log(getWeaponCharacteristicsUtil(this.type, this.materialCharacteristics));
     return {
-      ...getWeaponCharacteristics(this.type, this.materialCharacteristics),
+      ...getWeaponCharacteristicsUtil(this.type, this.materialCharacteristics),
       type: this.type,
       material: this.material,
     };

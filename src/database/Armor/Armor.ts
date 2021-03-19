@@ -1,5 +1,5 @@
-import { CharacteristicsSum } from './CharacteristicsSum';
-import { getArmorCharacteristics } from './utils/utils';
+import { CharacteristicsSum } from '../CharacteristicsSum';
+import { getArmorCharacteristics } from '../utils/utils';
 
 export class Armor<M extends TLeatherMaterial | TMetalMaterial> extends CharacteristicsSum<
   TArmorType,
@@ -22,3 +22,7 @@ export class Armor<M extends TLeatherMaterial | TMetalMaterial> extends Characte
     console.log(this.type, this.material);
   }
 }
+
+const test = new Armor('chain', 'bronze');
+
+// test.armorCharacteristics

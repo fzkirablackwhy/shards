@@ -18,12 +18,9 @@
     <div>{{ getArmorCharacteristics() }}</div>
   </div>
 </template>
-
 <script lang="ts">
-/* eslint-disable import/no-extraneous-dependencies */
-
 import { defineComponent } from '@vue/runtime-core';
-import { ArmorFactory, WeaponFactory } from '../database/main';
+import { ArmorFactory } from '../database/main';
 import {
   characteristicsOptions,
   armorOptions,
@@ -33,26 +30,39 @@ import {
 
 export default defineComponent({
   name: 'Armor',
+  props: {
+    setArmor: {
+      type: Function,
+      required: true,
+    },
+  },
   computed: {
     armorMaterials() {
       const type = this.selectedArmor;
       switch (type) {
         case 'leather':
           return leatherMaterialOptions;
+        case 'lamellar':
+          return [...leatherMaterialOptions, ...metalMaterialOptions];
         default:
           return metalMaterialOptions;
       }
     },
   },
   methods: {
-    onSelect() {
-      // Object.values(characteristicsOptions).forEach(key => console.log(key));
-    },
+    // FIXME: вынести в метод отдельного стора,
     getArmorCharacteristics() {
       const armor = ArmorFactory.createArmor(
         this.selectedArmor,
-        this.selectedMaterial[this.selectedArmor] as TLeatherMaterial | TMetalMaterial,
+        this.selectedMaterial[this.selectedArmor as TArmorType] as
+          | TLeatherMaterial
+          | TMetalMaterial,
       );
+
+      // armor.armorCharacteristics;
+      // TCharacteristicsSum.
+      // пока тут
+      this.$emit('setArmor', armor);
 
       return characteristicsOptions
         .map(
@@ -77,7 +87,6 @@ export default defineComponent({
 });
 </script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-
 <style scoped>
 h3 {
   margin: 40px 0 0;

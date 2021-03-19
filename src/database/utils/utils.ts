@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-ignore */
 import { ARMOR_CHARACTERISTICS } from '../constants/armor';
 import {
   LEATHER_MATERIALS_CHARACTERISTICS,
@@ -5,11 +6,17 @@ import {
 } from '../constants/materials';
 import { WEAPON_CHARACTERISTICS } from '../constants/weapon';
 
-const damageTypeKeys = ['trustDamage', 'сuttingDamage', 'choppingDamage', 'crushingDamage'];
+const damageTypeKeys: DamageTypeKeys[] = [
+  'trustDamage',
+  'сuttingDamage',
+  'choppingDamage',
+  'crushingDamage',
+];
 const getRandomValue = (min: number, max: number) =>
   Math.floor(min + Math.random() * (max + 1 - min));
 
 const isNegativeNum = (num: number) => num < 0;
+export const preventNegativeNum = (num: number) => (isNegativeNum(num) ? 0 : num);
 
 export const getCharacteristicsByMaterial = <M extends TLeatherMaterial | TMetalMaterial>(
   material: M,
@@ -24,13 +31,10 @@ export const getCharacteristicsByMaterial = <M extends TLeatherMaterial | TMetal
 };
 
 export const getArmorCharacteristics = (type: TArmorType, materialStats: TDamageType) => {
-  // вынести ключи отдельно
   return damageTypeKeys.reduce((accumulator, key) => {
-    const value =
-      ARMOR_CHARACTERISTICS[type][key as DamageTypeKeys] +
-      Number(materialStats[key as DamageTypeKeys] ?? 0);
+    const value = ARMOR_CHARACTERISTICS[type][key] + Number(materialStats[key] ?? 0);
     return {
-      [key]: isNegativeNum(value) ? 0 : value,
+      [key]: preventNegativeNum(value),
       ...accumulator,
     };
   }, {}) as Required<TDamageType>;
@@ -40,22 +44,42 @@ export const getWeaponCharacteristics = (type: TWeaponType, materialStats: TDama
   if (!WEAPON_CHARACTERISTICS[type]) {
     throw new Error('Досвидос');
   }
-  return damageTypeKeys.reduce((accumulator, key) => {
+  return damageTypeKeys.reduce<TDamageType>((accumulator, key) => {
     let value = 0;
     if (key in WEAPON_CHARACTERISTICS[type]) {
-      const weaponCharacteristics = WEAPON_CHARACTERISTICS[type][key as DamageTypeKeys];
+      const weaponCharacteristics = WEAPON_CHARACTERISTICS[type][key];
 
       const randomDamage = getRandomValue(
         weaponCharacteristics?.from ?? 0,
         weaponCharacteristics?.to ?? 0,
       );
 
-      value = randomDamage + Number(materialStats[key as DamageTypeKeys] ?? 0);
+      // FIXME: вынести отдельно
+      const percentageOfDamage = (randomDamage / 100) * Number(materialStats[key] ?? 0);
+      value = randomDamage + percentageOfDamage;
     }
 
     return {
-      [key]: isNegativeNum(value) ? 0 : value,
+      [key]: preventNegativeNum(value),
       ...accumulator,
     };
   }, {}) as Required<TDamageType>;
+};
+
+export const calculateDamage = (weapon: TDamageType, dummyArmor: TDamageType) => {
+  let damage = 0;
+  damageTypeKeys.forEach(key => {
+    const weaponDamage = weapon[key];
+    const dammyArmorResistance = dummyArmor[key];
+
+    console.log(weaponDamage, 'weaponDamage');
+    if (weaponDamage) {
+      if (dammyArmorResistance) {
+        damage = weaponDamage - (weaponDamage / 100) * dammyArmorResistance;
+      } else {
+        damage = weaponDamage;
+      }
+    }
+  });
+  return preventNegativeNum(damage);
 };

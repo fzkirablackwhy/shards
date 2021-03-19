@@ -23,13 +23,8 @@
 /* eslint-disable import/no-extraneous-dependencies */
 
 import { defineComponent } from '@vue/runtime-core';
-import { ArmorFactory, WeaponFactory } from '../database/main';
-import {
-  characteristicsOptions,
-  weaponOptions,
-  leatherMaterialOptions,
-  metalMaterialOptions,
-} from './options';
+import { WeaponFactory } from '../database/main';
+import { characteristicsOptions, weaponOptions, metalMaterialOptions } from './options';
 
 export default defineComponent({
   name: 'Weapon',
@@ -40,17 +35,17 @@ export default defineComponent({
     },
     getWeaponCharacteristics() {
       const weapon = WeaponFactory.createWeapon(this.selectedWeapon, this.selectedMaterial);
+      weapon.getWeaponCharacteristics();
+      this.$emit('setWeapon', weapon);
 
-      const weaponCharacteristics = weapon.getWeaponCharacteristics();
-
-      console.log(weaponCharacteristics);
-      return characteristicsOptions
-        .map(
-          ({ value, text }) =>
-            // тут другой тип
-            `${text} ${weaponCharacteristics[value as keyof TDamageType]}`,
-        )
-        .join(', ');
+      // // FIXME: убрать и контролировать сверху
+      // return characteristicsOptions
+      //   .map(
+      //     ({ value, text }) =>
+      //       // тут другой тип
+      //       `${text} ${weaponCharacteristics[value as keyof TDamageType]}`,
+      //   )
+      //   .join(', ');
     },
   },
   data() {
@@ -70,7 +65,6 @@ export default defineComponent({
   background: antiquewhite;
 }
 select {
-  margin: 20px;
 }
 h3 {
   margin: 40px 0 0;

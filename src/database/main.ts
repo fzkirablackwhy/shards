@@ -1,6 +1,7 @@
-import { LeatherArmor } from './LeatherArmor';
+import { LeatherArmor } from './Armor/LeatherArmor';
 import { Weapon } from './Weapon';
-import { MetalArmor } from './MetalArmor';
+import { MetalArmor } from './Armor/MetalArmor';
+import { LamellarArmor } from './Armor/LamellarArmor';
 
 export class ArmorFactory {
   static createArmor<T extends TArmorType, M extends ArmorMaterialByType<T>>(type: T, material: M) {
@@ -11,6 +12,8 @@ export class ArmorFactory {
     switch (type) {
       case 'leather':
         return new LeatherArmor(type, material as TLeatherMaterial);
+      case 'lamellar':
+        return new LamellarArmor(type, material);
       default:
         return new MetalArmor(type, material as TMetalMaterial);
     }

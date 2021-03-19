@@ -1,79 +1,37 @@
 <template>
   <div>
     Манекен
-    <select v-model="selectedArmor">
-      <option v-for="option in armorOptions" :value="option.value" :key="option.value">
-        {{ option.text }}
-      </option>
-    </select>
-    <select @change="onSelect" v-model="selectedMaterial[selectedArmor]">
-      <option
-        v-for="(option, $index) in armorMaterials"
-        :value="option.value"
-        :key="option.value"
-        :selected="$index === 0 ? true : false"
-      >
-        {{ option.text }}
-      </option>
-    </select>
-    <div>{{ getArmorCharacteristics() }}</div>
+    <Armor @setArmor="setArmor" />
+    <p>Здоровье {{ hp }}</p>
   </div>
 </template>
 
 <script lang="ts">
-/* eslint-disable import/no-extraneous-dependencies */
-
 import { defineComponent } from '@vue/runtime-core';
-import { ArmorFactory } from '../database/main';
-import {
-  characteristicsOptions,
-  armorOptions,
-  leatherMaterialOptions,
-  metalMaterialOptions,
-} from './options';
+import { createNamespacedHelpers } from 'vuex';
+import Armor from './Armor.vue';
 
+const { mapMutations, mapState, mapGetters } = createNamespacedHelpers('dummy');
 export default defineComponent({
+  components: { Armor },
   name: 'Dummy',
-  computed: {
-    armorMaterials() {
-      const type = this.selectedArmor;
-      switch (type) {
-        case 'leather':
-          return leatherMaterialOptions;
-        default:
-          return metalMaterialOptions;
-      }
-    },
-  },
   methods: {
-    onSelect() {
-      // Object.values(characteristicsOptions).forEach(key => console.log(key));
-    },
-    getArmorCharacteristics() {
-      const armor = ArmorFactory.createArmor(
-        this.selectedArmor,
-        this.selectedMaterial[this.selectedArmor] as TLeatherMaterial | TMetalMaterial,
-      );
-
-      return characteristicsOptions
-        .map(
-          ({ value, text }) => `${text} ${armor.armorCharacteristics[value as keyof TDamageType]}`,
-        )
-        .join(', ');
-    },
+    ...mapMutations(['setArmor']),
   },
-  data() {
-    return {
-      selectedArmor: 'leather' as TArmorType,
-      selectedMaterial: {
-        leather: 'cow',
-        // убрать
-        chain: 'cuprum',
-        lamellar: 'cuprum',
-        mountainPattern: 'cuprum',
-      },
-      armorOptions,
-    };
+  computed: {
+    ...mapState({
+      // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+      // @ts-ignore
+      person: state => state.person,
+    }),
+    // FIXME: может и не пригодится
+    ...mapGetters([
+      'personStats',
+      'hp',
+      // ...
+    ]),
+    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+    // @ts-ignore
   },
 });
 </script>

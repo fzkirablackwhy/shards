@@ -28,4 +28,22 @@ export declare global {
     | 'twoHandedClub';
 
   type ArmorMaterialByType<T> = T extends 'leather' ? TLeatherMaterial : TMetalMaterial;
+
+  type TArmor<T, M> = {
+    armorCharacteristics: TDamageType & {
+      type: TArmorType;
+      material: M;
+    };
+  } & TCharacteristicsSum<T, M>;
+
+  type TWeapon<T, M> = {
+    weaponCharacteristics: TDamageType & {
+      type: TArmorType;
+      material: M;
+    };
+    getWeaponCharacteristics: () => TDamageType & {
+      type: TArmorType;
+      material: M;
+    };
+  } & TCharacteristicsSum<T, M>;
 }

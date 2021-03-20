@@ -1,11 +1,11 @@
 <template>
   <div class="weapon">
-    <select v-model="selectedWeapon">
+    <select @input="e => onSelect(e, 'type')">
       <option v-for="option in weaponOptions" :value="option.value" :key="option.value">
         {{ option.text }}
       </option>
     </select>
-    <select @change="onSelect" v-model="selectedMaterial">
+    <select @input="e => onSelect(e, 'material')">
       <option
         v-for="(option, $index) in weaponMaterials"
         :value="option.value"
@@ -15,7 +15,6 @@
         {{ option.text }}
       </option>
     </select>
-    <div>{{ getWeaponCharacteristics() }}</div>
   </div>
 </template>
 
@@ -23,35 +22,27 @@
 /* eslint-disable import/no-extraneous-dependencies */
 
 import { defineComponent } from '@vue/runtime-core';
-import { WeaponFactory } from '../database/main';
-import { characteristicsOptions, weaponOptions, metalMaterialOptions } from './options';
+import { weaponOptions, metalMaterialOptions } from './options';
 
 export default defineComponent({
   name: 'Weapon',
   computed: {},
-  methods: {
-    onSelect() {
-      // Object.values(characteristicsOptions).forEach(key => console.log(key));
+  props: {
+    weapon: {
+      type: Object,
     },
-    getWeaponCharacteristics() {
-      const weapon = WeaponFactory.createWeapon(this.selectedWeapon, this.selectedMaterial);
-      weapon.getWeaponCharacteristics();
-      this.$emit('setWeapon', weapon);
-
-      // // FIXME: убрать и контролировать сверху
-      // return characteristicsOptions
-      //   .map(
-      //     ({ value, text }) =>
-      //       // тут другой тип
-      //       `${text} ${weaponCharacteristics[value as keyof TDamageType]}`,
-      //   )
-      //   .join(', ');
+    setWeapon: {
+      type: Function,
+      required: true,
+    },
+  },
+  methods: {
+    onSelect(e: any, type: any) {
+      this.$emit('setWeapon', { value: e.target.value, type });
     },
   },
   data() {
     return {
-      selectedWeapon: 'oneHandedSword' as TWeaponType,
-      selectedMaterial: 'cuprum' as TMetalMaterial,
       weaponMaterials: metalMaterialOptions,
       weaponOptions,
     };

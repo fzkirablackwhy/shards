@@ -36,14 +36,14 @@ export declare global {
     };
   } & TCharacteristicsSum<T, M>;
 
+  type TWeaponCharacteristics<T, M> = TDamageType & {
+    type: T;
+    material: M;
+  };
   type TWeapon<T, M> = {
-    weaponCharacteristics: TDamageType & {
-      type: TArmorType;
-      material: M;
-    };
-    getWeaponCharacteristics: () => TDamageType & {
-      type: TArmorType;
-      material: M;
-    };
+    changeType: (type: T) => TWeapon<T, M>;
+    changeMaterial: (material: M) => TWeapon<T, M>;
+    weaponCharacteristics: TWeaponCharacteristics<T, M> | null;
+    calculateWeaponCharacteristics: () => TWeapon<T, M>;
   } & TCharacteristicsSum<T, M>;
 }

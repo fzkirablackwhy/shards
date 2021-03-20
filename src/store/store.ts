@@ -2,11 +2,12 @@ import { createStore } from 'vuex';
 import { DummyState, dummy } from '@/store/modules/dummy';
 import { calculateDamage } from '@/database/utils/utils';
 import { preventNegativeNum } from '@/database/utils/heplpers';
+import { WeaponFactory } from '@/database/main';
 
 export type State = {
   dummy?: DummyState;
   armor: TArmor<TArmorType, TMetalMaterial | TLeatherMaterial> | null;
-  weapon: TWeapon<TWeaponType, TMetalMaterial> | null;
+  weapon: TWeapon<TWeaponType, TMetalMaterial>;
 };
 
 const store = createStore<State>({
@@ -15,14 +16,19 @@ const store = createStore<State>({
   },
   state: () => ({
     armor: null,
-    weapon: null,
+    weapon: WeaponFactory.createWeapon('oneHandedSword' as TWeaponType, 'cuprum'),
   }),
   mutations: {
     setArmor(state, armor) {
       state.armor = armor;
     },
-    setWeapon(state, weapon) {
-      state.weapon = weapon;
+    setWeapon(state, args) {
+      if (args.type === 'material') {
+        state.weapon.changeMaterial(args.value);
+      }
+      if (args.type === 'type') {
+        state.weapon.changeType(args.value);
+      }
     },
     attackDummy(state) {
       if (state.weapon?.weaponCharacteristics && state.dummy?.armor) {
@@ -30,11 +36,11 @@ const store = createStore<State>({
         const dummyArmorCharacteristics = state.dummy.armor.armorCharacteristics;
 
         const { hp } = state.dummy.person;
-
         state.dummy.person.hp = preventNegativeNum(
           hp - calculateDamage(weaponCharacteristics, dummyArmorCharacteristics),
         );
-        state.weapon.weaponCharacteristics = state.weapon.getWeaponCharacteristics();
+        // recalculate
+        state.weapon.calculateWeaponCharacteristics();
       }
     },
   },

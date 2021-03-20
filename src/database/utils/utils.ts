@@ -5,6 +5,7 @@ import {
   METAL_MATERIALS_CHARACTERISTICS,
 } from '../constants/materials';
 import { WEAPON_CHARACTERISTICS } from '../constants/weapon';
+import { getRandomValue, percentageOfNum, preventNegativeNum } from './heplpers';
 
 const damageTypeKeys: DamageTypeKeys[] = [
   'trustDamage',
@@ -12,11 +13,6 @@ const damageTypeKeys: DamageTypeKeys[] = [
   'choppingDamage',
   'crushingDamage',
 ];
-const getRandomValue = (min: number, max: number) =>
-  Math.floor(min + Math.random() * (max + 1 - min));
-
-const isNegativeNum = (num: number) => num < 0;
-export const preventNegativeNum = (num: number) => (isNegativeNum(num) ? 0 : num);
 
 export const getCharacteristicsByMaterial = <M extends TLeatherMaterial | TMetalMaterial>(
   material: M,
@@ -54,9 +50,7 @@ export const getWeaponCharacteristics = (type: TWeaponType, materialStats: TDama
         weaponCharacteristics?.to ?? 0,
       );
 
-      // FIXME: вынести отдельно
-      const percentageOfDamage = (randomDamage / 100) * Number(materialStats[key] ?? 0);
-      value = randomDamage + percentageOfDamage;
+      value = randomDamage + percentageOfNum(randomDamage, Number(materialStats[key] ?? 0));
     }
 
     return {
@@ -72,10 +66,9 @@ export const calculateDamage = (weapon: TDamageType, dummyArmor: TDamageType) =>
     const weaponDamage = weapon[key];
     const dammyArmorResistance = dummyArmor[key];
 
-    console.log(weaponDamage, 'weaponDamage');
     if (weaponDamage) {
       if (dammyArmorResistance) {
-        damage = weaponDamage - (weaponDamage / 100) * dammyArmorResistance;
+        damage = weaponDamage - percentageOfNum(weaponDamage, dammyArmorResistance);
       } else {
         damage = weaponDamage;
       }

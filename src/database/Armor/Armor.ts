@@ -22,7 +22,3 @@ export class Armor<M extends TLeatherMaterial | TMetalMaterial> extends Characte
     console.log(this.type, this.material);
   }
 }
-
-const test = new Armor('chain', 'bronze');
-
-// test.armorCharacteristics

@@ -1,6 +1,7 @@
 import { createStore } from 'vuex';
 import { DummyState, dummy } from '@/store/modules/dummy';
-import { calculateDamage, preventNegativeNum } from '@/database/utils/utils';
+import { calculateDamage } from '@/database/utils/utils';
+import { preventNegativeNum } from '@/database/utils/heplpers';
 
 export type State = {
   dummy?: DummyState;

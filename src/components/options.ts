@@ -72,7 +72,7 @@ export const weaponOptions: { value: TWeaponType; text: string }[] = [
   },
   {
     value: 'twoHandedSpear',
-    text: 'одноручное копье',
+    text: 'двуручное копье',
   },
   {
     value: 'twohandedHammer',

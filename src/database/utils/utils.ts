@@ -50,7 +50,9 @@ export const getWeaponCharacteristics = (type: TWeaponType, materialStats: TDama
         weaponCharacteristics?.to ?? 0,
       );
 
-      value = randomDamage + percentageOfNum(randomDamage, Number(materialStats[key] ?? 0));
+      value = Math.round(
+        randomDamage + percentageOfNum(randomDamage, Number(materialStats[key] ?? 0)),
+      );
     }
 
     return {
@@ -76,3 +78,12 @@ export const calculateDamage = (weapon: TDamageType, dummyArmor: TDamageType) =>
   });
   return preventNegativeNum(damage);
 };
+
+export const getInitialCharacteristics = () =>
+  damageTypeKeys.reduce<TDamageType>(
+    (acc, key) => ({
+      [key]: 0,
+      ...acc,
+    }),
+    {},
+  );

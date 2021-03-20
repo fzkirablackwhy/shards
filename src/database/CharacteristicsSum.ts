@@ -14,9 +14,15 @@ export class CharacteristicsSum<T, M extends TLeatherMaterial | TMetalMaterial>
   }
 
   get materialCharacteristics() {
-    if (this.materials.find(material => material === this.material) && this.name) {
-      return getCharacteristicsByMaterial(this.material, this.name);
+    if (!this.name) {
+      throw new Error('Не задано имя типа для материала');
     }
-    throw new Error('Невозможно вычислить характеристики для несуществующего материала');
+    if (!this.materials) {
+      throw new Error('Массив материалов для данного типа вещи не задан');
+    }
+    if (!this.materials.find(material => material === this.material)) {
+      throw new Error('Невозможно вычислить характеристики для несуществующего материала');
+    }
+    return getCharacteristicsByMaterial(this.material, this.name);
   }
 }

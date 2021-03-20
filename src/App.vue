@@ -2,8 +2,9 @@
   <img alt="Vue logo" src="./assets/logo.png" />
   <div class="container">
     <div class="block">
-      <Armor @setArmor="setArmor" />
-      <Weapon @setWeapon="setWeapon" />
+      <Armor @setArmor="setArmor" :armor="armor" />
+      {{ armorCharacteristics }}
+      <Weapon @setWeapon="setWeapon" :weapon="weapon" />
       {{ weaponCharacteristics }}
     </div>
     <div class="block">
@@ -13,10 +14,9 @@
   </div>
 </template>
 <script>
-import { mapMutations, mapState } from 'vuex';
+import { mapGetters, mapMutations, mapState } from 'vuex';
 import Armor from './components/Armor.vue';
 import Dummy from './components/Dummy.vue';
-import { characteristicsOptions } from './components/options';
 import Weapon from './components/Weapon.vue';
 
 export default {
@@ -25,20 +25,8 @@ export default {
     ...mapState({
       weapon: state => state.weapon,
       armor: state => state.armor,
+      ...mapGetters(['armorCharacteristics', 'weaponCharacteristics']),
     }),
-    // FIXME: вынести
-    weaponCharacteristics() {
-      if (this.weapon?.weaponCharacteristics) {
-        return characteristicsOptions
-          .map(
-            ({ value, text }) =>
-              // тут другой тип
-              `${text} ${this.weapon.weaponCharacteristics[value]}`,
-          )
-          .join(', ');
-      }
-      return '';
-    },
   },
   methods: {
     ...mapMutations(['setArmor', 'setWeapon', 'attackDummy']),
@@ -64,6 +52,7 @@ export default {
 body {
   background: khaki;
 }
+
 select {
   min-width: 200px;
   margin: 0 10px;

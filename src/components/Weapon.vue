@@ -1,16 +1,21 @@
 <template>
   <div class="weapon">
     <select @input="e => onSelect(e, 'type')">
-      <option v-for="option in weaponOptions" :value="option.value" :key="option.value">
+      <option
+        v-for="option in weaponOptions"
+        :value="option.value"
+        :key="option.value"
+        :selected="option.value === weapon.type"
+      >
         {{ option.text }}
       </option>
     </select>
     <select @input="e => onSelect(e, 'material')">
       <option
-        v-for="(option, $index) in weaponMaterials"
+        v-for="option in weaponMaterials"
         :value="option.value"
         :key="option.value"
-        :selected="$index === 0 ? true : false"
+        :selected="option.value === weapon.material"
       >
         {{ option.text }}
       </option>
@@ -19,9 +24,7 @@
 </template>
 
 <script lang="ts">
-/* eslint-disable import/no-extraneous-dependencies */
-
-import { defineComponent } from '@vue/runtime-core';
+import { defineComponent, PropType } from '@vue/runtime-core';
 import { weaponOptions, metalMaterialOptions } from './options';
 
 export default defineComponent({
@@ -29,7 +32,7 @@ export default defineComponent({
   computed: {},
   props: {
     weapon: {
-      type: Object,
+      type: Object as PropType<TWeapon<TWeaponType, TMetalMaterial>>,
     },
     setWeapon: {
       type: Function,

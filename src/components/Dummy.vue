@@ -1,37 +1,52 @@
 <template>
   <div>
     Манекен
-    <Armor @setArmor="setArmor" />
+    <p>
+      Броня на манекене:
+      {{ !hasArmor ? 'без брони' : null }}
+      <button @click="onClick">
+        {{ hasArmor ? 'Снять броню' : 'Надеть броню' }}
+      </button>
+    </p>
+    <Armor @setArmor="setArmor" :armor="person.armor" v-if="person.armor" />
+    <p v-else>О, нет 😢</p>
     <p>Здоровье {{ hp }}</p>
+    {{ characteristics }}
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from '@vue/runtime-core';
+import { DummyState } from '@/store/modules/dummy';
 import { createNamespacedHelpers } from 'vuex';
 import Armor from './Armor.vue';
 
 const { mapMutations, mapState, mapGetters } = createNamespacedHelpers('dummy');
+
 export default defineComponent({
   components: { Armor },
   name: 'Dummy',
-  methods: {
-    ...mapMutations(['setArmor']),
-  },
   computed: {
-    ...mapState({
+    ...mapState<DummyState>({
+      person: (state: DummyState) => state.person,
+    }),
+    ...mapGetters(['hp', 'hasArmor', 'characteristics']),
+  },
+  methods: {
+    ...mapMutations(['setArmor', 'wearArmor', 'takeOffArmor']),
+    onClick() {
+      if (this.hasArmor) {
+        this.takeOffArmor();
+        return;
+      }
+      this.wearArmor();
+    },
+  },
+  data() {
+    return {
       // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
       // @ts-ignore
-      person: state => state.person,
-    }),
-    // FIXME: может и не пригодится
-    ...mapGetters([
-      'personStats',
-      'hp',
-      // ...
-    ]),
-    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-    // @ts-ignore
+    };
   },
 });
 </script>

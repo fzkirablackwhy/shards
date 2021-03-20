@@ -4,6 +4,9 @@ import { MetalArmor } from './Armor/MetalArmor';
 import { LamellarArmor } from './Armor/LamellarArmor';
 
 export class ArmorFactory {
+  static createDefaultArmor() {
+    return new LeatherArmor('leather', 'cow');
+  }
   static createArmor<T extends TArmorType, M extends ArmorMaterialByType<T>>(type: T, material: M) {
     if (!type) {
       throw new Error('Тип данной брони еще не существует!');

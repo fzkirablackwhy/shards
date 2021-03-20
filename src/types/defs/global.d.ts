@@ -29,11 +29,15 @@ export declare global {
 
   type ArmorMaterialByType<T> = T extends 'leather' ? TLeatherMaterial : TMetalMaterial;
 
+  type TArmorCharacteristics<T, M> = TDamageType & {
+    type: T;
+    material: M;
+  };
   type TArmor<T, M> = {
-    armorCharacteristics: TDamageType & {
-      type: TArmorType;
-      material: M;
-    };
+    changeType: (type: T) => TArmor<T, M>;
+    changeMaterial: (material: any) => TArmor<T, M>;
+    armorCharacteristics?: TArmorCharacteristics<T, M>;
+    calculateArmorCharacteristics: () => TArmor<T, M>;
   } & TCharacteristicsSum<T, M>;
 
   type TWeaponCharacteristics<T, M> = TDamageType & {

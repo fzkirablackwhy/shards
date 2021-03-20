@@ -1,36 +1,37 @@
 <template>
   <div>
-    <select v-model="selectedArmor">
-      <option v-for="option in armorOptions" :value="option.value" :key="option.value">
-        {{ option.text }}
-      </option>
-    </select>
-    <select @change="onSelect" v-model="selectedMaterial[selectedArmor]">
+    <select @input="e => onSelect(e, 'type')">
       <option
-        v-for="(option, $index) in armorMaterials"
+        v-for="option in armorOptions"
         :value="option.value"
         :key="option.value"
-        :selected="$index === 0 ? true : false"
+        :selected="option.value === type"
       >
         {{ option.text }}
       </option>
     </select>
-    <div>{{ getArmorCharacteristics() }}</div>
+    <select @input="e => onSelect(e, 'material')">
+      <option
+        v-for="option in armorMaterials"
+        :value="option.value"
+        :key="option.value"
+        :selected="option.value === armor?.material"
+      >
+        {{ option.text }}
+      </option>
+    </select>
   </div>
 </template>
 <script lang="ts">
-import { defineComponent } from '@vue/runtime-core';
-import { ArmorFactory } from '../database/main';
-import {
-  characteristicsOptions,
-  armorOptions,
-  leatherMaterialOptions,
-  metalMaterialOptions,
-} from './options';
+import { defineComponent, PropType } from '@vue/runtime-core';
+import { armorOptions, leatherMaterialOptions, metalMaterialOptions } from './options';
 
 export default defineComponent({
   name: 'Armor',
   props: {
+    armor: {
+      type: Object as PropType<TArmor<TArmorType, TMetalMaterial | TLeatherMaterial>>,
+    },
     setArmor: {
       type: Function,
       required: true,
@@ -38,7 +39,7 @@ export default defineComponent({
   },
   computed: {
     armorMaterials() {
-      const type = this.selectedArmor;
+      const type = this.armor?.type ?? 'leather';
       switch (type) {
         case 'leather':
           return leatherMaterialOptions;
@@ -50,37 +51,12 @@ export default defineComponent({
     },
   },
   methods: {
-    // FIXME: вынести в метод отдельного стора,
-    getArmorCharacteristics() {
-      const armor = ArmorFactory.createArmor(
-        this.selectedArmor,
-        this.selectedMaterial[this.selectedArmor as TArmorType] as
-          | TLeatherMaterial
-          | TMetalMaterial,
-      );
-
-      // armor.armorCharacteristics;
-      // TCharacteristicsSum.
-      // пока тут
-      this.$emit('setArmor', armor);
-
-      return characteristicsOptions
-        .map(
-          ({ value, text }) => `${text} ${armor.armorCharacteristics[value as keyof TDamageType]}`,
-        )
-        .join(', ');
+    onSelect(e: any, type: 'type' | 'material') {
+      this.$emit('setArmor', { value: e.target.value, type });
     },
   },
   data() {
     return {
-      selectedArmor: 'leather' as TArmorType,
-      selectedMaterial: {
-        leather: 'cow',
-        // убрать
-        chain: 'cuprum',
-        lamellar: 'cuprum',
-        mountainPattern: 'cuprum',
-      },
       armorOptions,
     };
   },

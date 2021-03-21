@@ -42,6 +42,7 @@ const store = createStore<State>({
       }
     },
     attackDummy(state) {
+      // FIXME: Вынести в отдельный метод?
       if (state.weapon?.weaponCharacteristics && state.dummy?.person) {
         const { weaponCharacteristics } = state.weapon;
         const { armorCharacteristics } = state.dummy.person;

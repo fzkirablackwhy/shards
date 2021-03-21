@@ -70,9 +70,9 @@ export const calculateDamage = (weapon: TDamageType, dummyArmor: TDamageType) =>
 
     if (weaponDamage) {
       if (dammyArmorResistance) {
-        damage = weaponDamage - percentageOfNum(weaponDamage, dammyArmorResistance);
+        damage += weaponDamage - percentageOfNum(weaponDamage, dammyArmorResistance);
       } else {
-        damage = weaponDamage;
+        damage += weaponDamage;
       }
     }
   });

@@ -14,6 +14,15 @@ const damageTypeKeys: DamageTypeKeys[] = [
   'crushingDamage',
 ];
 
+export const getDefaultMaterial = (type: TArmorType): TLeatherMaterial | TMetalMaterial => {
+  switch (type) {
+    case 'leather':
+    case 'lamellar':
+      return 'cow';
+    default:
+      return 'cuprum';
+  }
+};
 export const getCharacteristicsByMaterial = <M extends TLeatherMaterial | TMetalMaterial>(
   material: M,
   name: string,

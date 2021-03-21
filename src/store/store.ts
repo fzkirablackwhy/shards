@@ -25,11 +25,10 @@ const store = createStore<State>({
   mutations: {
     setArmor(state, args) {
       if (args.type === 'material') {
-        const armor = ArmorFactory.createArmor(state.armor.type, args.value);
-        state.armor = armor;
+        state.armor.changeMaterial(state.armor.type);
       }
       if (args.type === 'type') {
-        const armor = ArmorFactory.createArmor(args.value, state.armor.material);
+        const armor = ArmorFactory.createArmor(args.value);
         state.armor = armor;
       }
     },

@@ -24,11 +24,11 @@ export const dummy: Module<DummyState, {}> = {
     setArmor(state, args) {
       if (state.person.armor) {
         if (args.type === 'material') {
-          const armor = ArmorFactory.createArmor(state.person.armor.type, args.value);
+          const armor = state.person.armor.changeMaterial(args.value);
           state.person.addArmor(armor);
         }
         if (args.type === 'type') {
-          const armor = ArmorFactory.createArmor(args.value, state.person.armor.material);
+          const armor = ArmorFactory.createArmor(args.value);
           state.person.addArmor(armor);
         }
       }
@@ -38,7 +38,7 @@ export const dummy: Module<DummyState, {}> = {
     },
   },
   getters: {
-    hp: state => state.person.hp.toFixed(2),
+    hp: state => state.person.hp,
     hasArmor: state => Boolean(state.person.armor),
     characteristics: state => mapArmorCharacteristics(state.person.armorCharacteristics),
   },

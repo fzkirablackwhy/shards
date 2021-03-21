@@ -12,8 +12,9 @@
     <p v-else>О, нет 😢</p>
     <div class="characteristics">
       <p>Здоровье {{ hp }}</p>
-
-      {{ characteristics }}
+      <div v-for="characteristic in characteristics" :key="characteristic">
+        {{ characteristic }}
+      </div>
     </div>
   </div>
 </template>
@@ -56,10 +57,22 @@ export default defineComponent({
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 
 <style scoped>
+* {
+  color: rgb(223, 166, 18);
+}
+
+button {
+  color: black;
+}
 .characteristics {
+  background: rgba(236, 198, 48, 0.1);
+  margin: 20px 0;
+  border-radius: 20px;
   max-width: 350px;
   font-size: 17px;
-  padding: 5px;
+  padding: 15px;
+  text-align: left;
+  border: 1px solid;
 }
 h3 {
   margin: 40px 0 0;

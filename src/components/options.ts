@@ -34,7 +34,7 @@ export const armorCharacteristicsOptions = [
     text: 'тип',
   },
 ];
-export const characteristicsOptions = [
+export const weaponCharacteristicsOptions = [
   { value: 'сuttingDamage', text: 'режущий урон' },
   { value: 'trustDamage', text: 'колющий урон' },
   { value: 'choppingDamage', text: 'рубящий урон' },

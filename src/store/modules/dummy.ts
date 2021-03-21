@@ -1,7 +1,7 @@
 import { Person } from '@/database/Person/Person';
 import { ArmorFactory } from '@/database/main';
 import { Module } from 'vuex';
-import { armorCharacteristicsOptions, characteristicsOptions } from '@/components/options';
+import { mapArmorCharacteristics } from '@/utils/mappers';
 
 // FIXME: вынести отдельный тип
 const person = new Person(100);
@@ -37,16 +37,6 @@ export const dummy: Module<DummyState, {}> = {
   getters: {
     hp: state => state.person.hp.toFixed(2),
     hasArmor: state => Boolean(state.person.armor),
-    characteristics: state =>
-      armorCharacteristicsOptions
-        .map(
-          ({ value, text }) =>
-            `${text} ${
-              state.person?.armorCharacteristics?.[
-                value as keyof TArmorCharacteristics<TArmorType, TMetalMaterial | TLeatherMaterial>
-              ]
-            }`,
-        )
-        .join(', '),
+    characteristics: state => mapArmorCharacteristics(state.person.armorCharacteristics),
   },
 };

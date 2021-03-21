@@ -4,7 +4,7 @@ import { DummyState, dummy } from '@/store/modules/dummy';
 import { calculateDamage } from '@/database/utils/utils';
 import { preventNegativeNum } from '@/database/utils/heplpers';
 import { ArmorFactory, WeaponFactory } from '@/database/main';
-import { armorCharacteristicsOptions, characteristicsOptions } from '@/components/options';
+import { mapArmorCharacteristics, mapWeaponCharacteristics } from '@/utils/mappers';
 
 export type State = {
   dummy?: DummyState;
@@ -46,7 +46,6 @@ const store = createStore<State>({
 
         const { hp } = state.dummy.person;
         state.dummy.person.hp = preventNegativeNum(
-          // @ts-ignore
           hp - calculateDamage(weaponCharacteristics, armorCharacteristics),
         );
         // recalculate
@@ -55,28 +54,8 @@ const store = createStore<State>({
     },
   },
   getters: {
-    armorCharacteristics: state =>
-      armorCharacteristicsOptions
-        .map(
-          ({ value, text }) =>
-            `${text} ${
-              state.armor?.armorCharacteristics?.[
-                value as keyof TArmorCharacteristics<TArmorType, TMetalMaterial | TLeatherMaterial>
-              ]
-            }`,
-        )
-        .join(', '),
-    weaponCharacteristics: state =>
-      characteristicsOptions
-        .map(
-          ({ value, text }) =>
-            `${text} ${
-              state.weapon.weaponCharacteristics?.[
-                value as keyof TWeaponCharacteristics<TWeaponType, TMetalMaterial>
-              ]
-            }`,
-        )
-        .join(', '),
+    armorCharacteristics: state => mapArmorCharacteristics(state.armor.armorCharacteristics),
+    weaponCharacteristics: state => mapWeaponCharacteristics(state.weapon.weaponCharacteristics),
   },
 });
 

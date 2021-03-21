@@ -1,5 +1,5 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png" />
+  <!-- <img alt="Vue logo" src="./assets/logo.png" /> -->
   <div class="container">
     <div class="block">
       <Armor @setArmor="setArmor" :armor="armor" />
@@ -48,9 +48,8 @@ export default {
   color: #2c3e50;
   margin-top: 60px;
 }
-
 body {
-  background: khaki;
+  background: #211f13;
 }
 
 select {
@@ -69,6 +68,7 @@ select {
   border-radius: 24px;
 }
 .block + .block {
+  background: #222831;
   margin-left: 20px;
 }
 </style>

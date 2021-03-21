@@ -87,3 +87,10 @@ export const getInitialCharacteristics = () =>
     }),
     {},
   );
+
+// Щанс попадания
+export const getHitChance = (hitChance: number) => {
+  const randomHitChance = Math.floor(Math.random() * 100);
+
+  return randomHitChance <= hitChance;
+};

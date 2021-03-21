@@ -10,6 +10,7 @@
     <div class="block">
       <Dummy />
       <button @click="attackDummy">ATTACK!</button>
+      <p class="hit-state">Состояние удара: {{ hitState }}</p>
     </div>
   </div>
 </template>
@@ -25,8 +26,8 @@ export default {
     ...mapState({
       weapon: state => state.weapon,
       armor: state => state.armor,
-      ...mapGetters(['armorCharacteristics', 'weaponCharacteristics']),
     }),
+    ...mapGetters(['armorCharacteristics', 'weaponCharacteristics', 'hitState']),
   },
   methods: {
     ...mapMutations(['setArmor', 'setWeapon', 'attackDummy']),
@@ -51,7 +52,9 @@ export default {
 body {
   background: #211f13;
 }
-
+.hit-state {
+  color: red;
+}
 select {
   min-width: 200px;
   margin: 0 10px;

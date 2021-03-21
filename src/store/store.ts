@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-ignore */
 import { createStore } from 'vuex';
 import { DummyState, dummy } from '@/store/modules/dummy';
-import { calculateDamage } from '@/database/utils/utils';
+import { calculateDamage, getHitChance } from '@/database/utils/utils';
 import { preventNegativeNum } from '@/database/utils/heplpers';
 import { ArmorFactory, WeaponFactory } from '@/database/main';
 import { mapArmorCharacteristics, mapWeaponCharacteristics } from '@/utils/mappers';
@@ -10,6 +10,7 @@ export type State = {
   dummy?: DummyState;
   armor: TArmor<TArmorType, TMetalMaterial | TLeatherMaterial>;
   weapon: TWeapon<TWeaponType, TMetalMaterial>;
+  hitChance: boolean | null;
 };
 
 const store = createStore<State>({
@@ -19,6 +20,7 @@ const store = createStore<State>({
   state: () => ({
     armor: ArmorFactory.createDefaultArmor(),
     weapon: WeaponFactory.createWeapon('oneHandedSword' as TWeaponType, 'cuprum'),
+    hitChance: null,
   }),
   mutations: {
     setArmor(state, args) {
@@ -45,15 +47,22 @@ const store = createStore<State>({
         const { armorCharacteristics } = state.dummy.person;
 
         const { hp } = state.dummy.person;
-        state.dummy.person.hp = preventNegativeNum(
-          hp - calculateDamage(weaponCharacteristics, armorCharacteristics),
-        );
-        // recalculate
-        state.weapon.calculateWeaponCharacteristics();
+
+        const hitChance = getHitChance(80);
+        state.hitChance = hitChance;
+
+        if (hitChance) {
+          state.dummy.person.hp = preventNegativeNum(
+            hp - calculateDamage(weaponCharacteristics, armorCharacteristics),
+          );
+          // recalculate
+          state.weapon.calculateWeaponCharacteristics();
+        }
       }
     },
   },
   getters: {
+    hitState: state => (state.hitChance ? 'Попадание' : 'Промах'),
     armorCharacteristics: state => mapArmorCharacteristics(state.armor.armorCharacteristics),
     weaponCharacteristics: state => mapWeaponCharacteristics(state.weapon.weaponCharacteristics),
   },

@@ -4,7 +4,7 @@ import { DummyState, dummy } from '@/store/modules/dummy';
 import { calculateDamage } from '@/database/utils/utils';
 import { preventNegativeNum } from '@/database/utils/heplpers';
 import { ArmorFactory, WeaponFactory } from '@/database/main';
-import { characteristicsOptions } from '@/components/options';
+import { armorCharacteristicsOptions, characteristicsOptions } from '@/components/options';
 
 export type State = {
   dummy?: DummyState;
@@ -23,10 +23,12 @@ const store = createStore<State>({
   mutations: {
     setArmor(state, args) {
       if (args.type === 'material') {
-        state.armor.changeMaterial(args.value);
+        const armor = ArmorFactory.createArmor(state.armor.type, args.value);
+        state.armor = armor;
       }
       if (args.type === 'type') {
-        state.armor.changeType(args.value);
+        const armor = ArmorFactory.createArmor(args.value, state.armor.material);
+        state.armor = armor;
       }
     },
     setWeapon(state, args) {
@@ -54,18 +56,25 @@ const store = createStore<State>({
   },
   getters: {
     armorCharacteristics: state =>
-      characteristicsOptions
+      armorCharacteristicsOptions
         .map(
           ({ value, text }) =>
-            `${text} ${state.armor?.armorCharacteristics?.[value as keyof TDamageType]}`,
+            `${text} ${
+              state.armor?.armorCharacteristics?.[
+                value as keyof TArmorCharacteristics<TArmorType, TMetalMaterial | TLeatherMaterial>
+              ]
+            }`,
         )
         .join(', '),
     weaponCharacteristics: state =>
       characteristicsOptions
         .map(
           ({ value, text }) =>
-            // тут другой тип
-            `${text} ${state.weapon.weaponCharacteristics?.[value as keyof TDamageType]}`,
+            `${text} ${
+              state.weapon.weaponCharacteristics?.[
+                value as keyof TWeaponCharacteristics<TWeaponType, TMetalMaterial>
+              ]
+            }`,
         )
         .join(', '),
   },

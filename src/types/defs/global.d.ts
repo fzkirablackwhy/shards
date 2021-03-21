@@ -1,6 +1,5 @@
 export declare global {
   type DamageTypeKeys = 'trustDamage' | 'сuttingDamage' | 'choppingDamage' | 'crushingDamage';
-
   type TDamageType = { [key in DamageTypeKeys]?: number };
 
   type TCharacteristicsSum<T, M> = {
@@ -30,8 +29,8 @@ export declare global {
   type ArmorMaterialByType<T> = T extends 'leather' ? TLeatherMaterial : TMetalMaterial;
 
   type TArmorCharacteristics<T, M> = TDamageType & {
-    type: T;
-    material: M;
+    type?: T;
+    material?: M;
   };
   type TArmor<T, M> = {
     changeType: (type: T) => TArmor<T, M>;

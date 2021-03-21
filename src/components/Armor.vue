@@ -32,7 +32,7 @@ export default defineComponent({
     armor: {
       type: Object as PropType<TArmor<TArmorType, TMetalMaterial | TLeatherMaterial>>,
     },
-    setArmor: {
+    onSetArmor: {
       type: Function,
       required: true,
     },
@@ -57,6 +57,7 @@ export default defineComponent({
   },
   data() {
     return {
+      type: null,
       armorOptions,
     };
   },

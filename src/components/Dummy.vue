@@ -10,8 +10,11 @@
     </p>
     <Armor @setArmor="setArmor" :armor="person.armor" v-if="person.armor" />
     <p v-else>О, нет 😢</p>
-    <p>Здоровье {{ hp }}</p>
-    {{ characteristics }}
+    <div class="characteristics">
+      <p>Здоровье {{ hp }}</p>
+
+      {{ characteristics }}
+    </div>
   </div>
 </template>
 
@@ -53,6 +56,11 @@ export default defineComponent({
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 
 <style scoped>
+.characteristics {
+  max-width: 350px;
+  font-size: 17px;
+  padding: 5px;
+}
 h3 {
   margin: 40px 0 0;
 }

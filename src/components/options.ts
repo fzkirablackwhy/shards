@@ -17,6 +17,23 @@ export const armorOptions: { value: TArmorType; text: string }[] = [
   },
 ];
 
+export const armorCharacteristicsOptions = [
+  { value: 'сuttingDamage', text: 'cопротивление режущему урону' },
+  { value: 'trustDamage', text: 'cопротивление колющему урону' },
+  { value: 'choppingDamage', text: 'cопротивление рубящему урону' },
+  {
+    value: 'crushingDamage',
+    text: 'cопротивление дробящему урону',
+  },
+  {
+    value: 'material',
+    text: 'материал',
+  },
+  {
+    value: 'type',
+    text: 'тип',
+  },
+];
 export const characteristicsOptions = [
   { value: 'сuttingDamage', text: 'режущий урон' },
   { value: 'trustDamage', text: 'колющий урон' },

@@ -34,7 +34,7 @@ export default defineComponent({
     weapon: {
       type: Object as PropType<TWeapon<TWeaponType, TMetalMaterial>>,
     },
-    setWeapon: {
+    onSetWeapon: {
       type: Function,
       required: true,
     },

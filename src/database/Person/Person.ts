@@ -2,7 +2,7 @@ import { getInitialCharacteristics } from '../utils/utils';
 
 export class Person {
   hp: number;
-  armorCharacteristics: TDamageType;
+  armorCharacteristics: TArmorCharacteristics<TArmorType, TMetalMaterial | TLeatherMaterial>;
   weapon?: string;
   armor?: TArmor<TArmorType, TMetalMaterial | TLeatherMaterial> | null;
   constructor(hp: number) {

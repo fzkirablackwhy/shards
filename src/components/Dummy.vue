@@ -11,7 +11,11 @@
     <Armor @setArmor="setArmor" :armor="person.armor" v-if="person.armor" />
     <p v-else>О, нет 😢</p>
     <div class="characteristics">
-      <p>Здоровье {{ hp }}</p>
+      <p v-if="hp > 0">Здоровье {{ hp }}</p>
+      <p v-else>
+        Потрачено
+        <button @click="resetHp">Начать заново</button>
+      </p>
       <div v-for="characteristic in characteristics" :key="characteristic">
         {{ characteristic }}
       </div>
@@ -37,7 +41,7 @@ export default defineComponent({
     ...mapGetters(['hp', 'hasArmor', 'characteristics']),
   },
   methods: {
-    ...mapMutations(['setArmor', 'wearArmor', 'takeOffArmor']),
+    ...mapMutations(['setArmor', 'wearArmor', 'takeOffArmor', 'resetHp']),
     onClick() {
       if (this.hasArmor) {
         this.takeOffArmor();

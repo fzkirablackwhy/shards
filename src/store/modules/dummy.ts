@@ -33,6 +33,9 @@ export const dummy: Module<DummyState, {}> = {
         }
       }
     },
+    resetHp(state) {
+      state.person.hp = 100;
+    },
   },
   getters: {
     hp: state => state.person.hp.toFixed(2),

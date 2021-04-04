@@ -1,5 +1,5 @@
 export declare global {
-  type DamageTypeKeys = 'trustDamage' | 'сuttingDamage' | 'choppingDamage' | 'crushingDamage';
+  type DamageTypeKeys = 'stabbingDamage' | 'сuttingDamage' | 'choppingDamage' | 'crushingDamage';
   type TDamageType = { [key in DamageTypeKeys]?: number };
 
   type TCharacteristicsSum<T, M> = {

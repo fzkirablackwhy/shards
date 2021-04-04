@@ -8,7 +8,7 @@ import { WEAPON_CHARACTERISTICS } from '../constants/weapon';
 import { getRandomValue, percentageOfNum, preventNegativeNum } from './heplpers';
 
 const damageTypeKeys: DamageTypeKeys[] = [
-  'trustDamage',
+  'stabbingDamage',
   'сuttingDamage',
   'choppingDamage',
   'crushingDamage',

@@ -25,7 +25,7 @@ export const WEAPON_CHARACTERISTICS: {
       from: 6,
       to: 7,
     },
-    trustDamage: {
+    stabbingDamage: {
       from: 4,
       to: 5,
     },

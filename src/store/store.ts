@@ -65,6 +65,7 @@ const store = createStore<State>({
     hitState: state => (state.hitChance ? 'Попадание' : 'Промах'),
     armorCharacteristics: state => mapArmorCharacteristics(state.armor.armorCharacteristics),
     weaponCharacteristics: state => mapWeaponCharacteristics(state.weapon.weaponCharacteristics),
+    weaponActions: state => state.weapon.actions,
   },
 });
 

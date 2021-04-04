@@ -6,6 +6,9 @@
       {{ armorCharacteristics }}
       <Weapon @setWeapon="setWeapon" :weapon="weapon" />
       {{ weaponCharacteristics }}
+      <div>
+        {{ weaponActions }}
+      </div>
     </div>
     <div class="block">
       <Dummy />
@@ -31,7 +34,7 @@ export default {
       armor: state => state.armor,
       hitChance: state => state.hitChance,
     }),
-    ...mapGetters(['armorCharacteristics', 'weaponCharacteristics', 'hitState']),
+    ...mapGetters(['armorCharacteristics', 'weaponCharacteristics', 'hitState', 'weaponActions']),
   },
   methods: {
     ...mapMutations(['setArmor', 'setWeapon', 'attackDummy']),

@@ -10,6 +10,9 @@
   "dependencies": {
     "@vue/runtime-core": "^3.0.7",
     "core-js": "^3.6.5",
+    "primeflex": "^2.0.0",
+    "primeicons": "^4.1.0",
+    "primevue": "^3.4.0",
     "vue": "^3.0.0",
     "vue-class-component": "^8.0.0-0",
     "vuex": "4.0.0"
@@ -31,7 +34,9 @@
     "eslint-plugin-import": "^2.20.2",
     "eslint-plugin-prettier": "^3.1.3",
     "eslint-plugin-vue": "^7.0.0-0",
+    "node-sass": "^5.0.0",
     "prettier": "^1.19.1",
+    "sass-loader": "^10.0.5",
     "typescript": "~3.9.3"
   }
 }

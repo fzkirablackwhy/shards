@@ -1,13 +1,20 @@
+/* eslint-disable no-case-declarations */
 import { LeatherArmor } from './Armor/LeatherArmor';
 import { Weapon } from './Weapon';
 import { MetalArmor } from './Armor/MetalArmor';
 import { LamellarArmor } from './Armor/LamellarArmor';
+import { getDefaultMaterial } from './utils/utils';
 
 export class ArmorFactory {
   static createDefaultArmor() {
     return new LeatherArmor('leather', 'cow');
   }
-  static createArmor<T extends TArmorType, M extends ArmorMaterialByType<T>>(type: T, material: M) {
+  static createArmor<T extends TArmorType, M extends ArmorMaterialByType<T>>(type: T, m?: M) {
+    let material = m;
+    if (!material) {
+      material = getDefaultMaterial(type) as M;
+    }
+    console.log(material, 'material');
     if (!type) {
       throw new Error('Тип данной брони еще не существует!');
     }

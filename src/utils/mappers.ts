@@ -1,14 +1,12 @@
 import { armorCharacteristicsOptions, weaponCharacteristicsOptions } from '@/components/options';
 
 export const mapArmorCharacteristics = (
-  armorCharacteristics?: TArmorCharacteristics<TArmorType, TLeatherMaterial | TMetalMaterial>,
+  armorCharacteristics?: TArmorCharacteristics<TArmorType, TAllMaterials>,
 ) =>
   armorCharacteristicsOptions.map(
     ({ value, text }) =>
       `${text} ${
-        armorCharacteristics?.[
-          value as keyof TArmorCharacteristics<TArmorType, TMetalMaterial | TLeatherMaterial>
-        ]
+        armorCharacteristics?.[value as keyof TArmorCharacteristics<TArmorType, TAllMaterials>]
       }`,
   );
 

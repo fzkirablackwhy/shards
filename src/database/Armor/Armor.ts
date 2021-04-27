@@ -1,10 +1,7 @@
 import { CharacteristicsSum } from '../CharacteristicsSum';
 import { getArmorCharacteristics } from '../utils/utils';
 
-export class Armor<M extends TLeatherMaterial | TMetalMaterial> extends CharacteristicsSum<
-  TArmorType,
-  M
-> {
+export class Armor<M extends TAllMaterials> extends CharacteristicsSum<TArmorType, M> {
   armorCharacteristics?: TArmorCharacteristics<TArmorType, M>;
   constructor({
     type,

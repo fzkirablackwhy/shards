@@ -2,9 +2,9 @@ import { getInitialCharacteristics } from '../utils/utils';
 
 export class Person {
   hp: number;
-  armorCharacteristics: TArmorCharacteristics<TArmorType, TMetalMaterial | TLeatherMaterial>;
+  armorCharacteristics: TArmorCharacteristics<TArmorType, TAllMaterials>;
   weapon?: string;
-  armor?: TArmor<TArmorType, TMetalMaterial | TLeatherMaterial> | null;
+  armor?: TArmor<TArmorType, TAllMaterials> | null;
   constructor(hp: number) {
     this.hp = hp;
     this.armorCharacteristics = getInitialCharacteristics();
@@ -19,7 +19,7 @@ export class Person {
     this.armorCharacteristics = getInitialCharacteristics();
   }
 
-  addArmor(armor: TArmor<TArmorType, TMetalMaterial | TLeatherMaterial>) {
+  addArmor(armor: TArmor<TArmorType, TAllMaterials>) {
     this.armor = armor;
     // update person stats
     if (this.armor?.armorCharacteristics) {

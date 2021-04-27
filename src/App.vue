@@ -1,23 +1,26 @@
 <template>
-  <!-- <img alt="Vue logo" src="./assets/logo.png" /> -->
   <div class="container">
     <div class="block">
-      <Armor @setArmor="setArmor" :armor="armor" />
-      {{ armorCharacteristics }}
-      <Weapon @setWeapon="setWeapon" :weapon="weapon" />
-      {{ weaponCharacteristics }}
+      <User />
+      <div>
+        {{ weaponActions }}
+      </div>
     </div>
     <div class="block">
       <Dummy />
-      <button @click="attackDummy">ATTACK!</button>
+      <Button label="ATTACK" @click="attackDummy" />
+      <p :class="hitChance ? 'green' : 'red'">
+        Состояние удара:
+        <span>{{ hitState }}</span>
+      </p>
     </div>
   </div>
 </template>
 <script>
-import { mapGetters, mapMutations, mapState } from 'vuex';
-import Armor from './components/Armor.vue';
+import { mapGetters, mapState } from 'vuex';
+import User from './components/User.vue';
 import Dummy from './components/Dummy.vue';
-import Weapon from './components/Weapon.vue';
+import Weapon from './components/Weapon/Weapon.vue';
 
 export default {
   name: 'App',
@@ -25,50 +28,60 @@ export default {
     ...mapState({
       weapon: state => state.weapon,
       armor: state => state.armor,
-      ...mapGetters(['armorCharacteristics', 'weaponCharacteristics']),
+      hitChance: state => state.hitChance,
     }),
+    ...mapGetters(['armorCharacteristics', 'weaponCharacteristics', 'hitState', 'weaponActions']),
   },
-  methods: {
-    ...mapMutations(['setArmor', 'setWeapon', 'attackDummy']),
-  },
+  // methods: {
+  //   // FIXME: вынести!
+  //   ...mapMutations(['setArmor', 'setArmorMaterial', 'setWeapon', 'attackDummy']),
+  // },
   components: {
-    Armor,
-    Weapon,
+    User,
+    // Weapon,
     Dummy,
   },
 };
 </script>
 
-<style>
+<style lang="scss">
+@import './scss/_colors.scss';
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
 }
 body {
-  background: #211f13;
+  margin-top: 60px;
+  background: $background;
 }
 
-select {
-  min-width: 200px;
-  margin: 0 10px;
+.red {
+  color: red;
+}
+.green {
+  color: #2fce2f;
+}
+
+.p-dropdown {
+  width: 13rem;
+  margin-right: 20px;
 }
 .container {
   display: flex;
   margin: auto 20px;
 }
 .block {
-  background: #fff;
+  text-align: left;
+  background: $blockColor;
+  color: $turquoise;
   padding: 20px;
   flex: 1 1 50%;
-  box-shadow: 0px 4px 16px rgb(0 0 0 / 10%);
+  /* box-shadow: 0px 4px 16px rgb(0 0 0 / 10%); */
   border-radius: 24px;
 }
 .block + .block {
-  background: #222831;
   margin-left: 20px;
 }
 </style>

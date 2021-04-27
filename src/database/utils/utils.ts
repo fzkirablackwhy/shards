@@ -8,13 +8,23 @@ import { WEAPON_CHARACTERISTICS } from '../constants/weapon';
 import { getRandomValue, percentageOfNum, preventNegativeNum } from './heplpers';
 
 const damageTypeKeys: DamageTypeKeys[] = [
-  'trustDamage',
+  'stabbingDamage',
   'сuttingDamage',
   'choppingDamage',
   'crushingDamage',
 ];
 
-export const getCharacteristicsByMaterial = <M extends TLeatherMaterial | TMetalMaterial>(
+export const getDefaultMaterial = (type: TArmorType): TAllMaterials => {
+  switch (type) {
+    case 'leather':
+    case 'lamellar':
+      return 'cow';
+    default:
+      return 'cuprum';
+  }
+};
+
+export const getCharacteristicsByMaterial = <M extends TAllMaterials>(
   material: M,
   name: string,
 ) => {
@@ -70,9 +80,9 @@ export const calculateDamage = (weapon: TDamageType, dummyArmor: TDamageType) =>
 
     if (weaponDamage) {
       if (dammyArmorResistance) {
-        damage = weaponDamage - percentageOfNum(weaponDamage, dammyArmorResistance);
+        damage += weaponDamage - percentageOfNum(weaponDamage, dammyArmorResistance);
       } else {
-        damage = weaponDamage;
+        damage += weaponDamage;
       }
     }
   });
@@ -87,3 +97,10 @@ export const getInitialCharacteristics = () =>
     }),
     {},
   );
+
+// Щанс попадания
+export const getHitChance = (hitChance: number) => {
+  const randomHitChance = Math.floor(Math.random() * 100);
+
+  return randomHitChance <= hitChance;
+};

@@ -1,20 +1,26 @@
 <template>
   <div>
-    Манекен
-    <p>
+    <h1>
+      Манекен
+    </h1>
+    <div class="p-d-flex p-ai-center">
       Броня на манекене:
-      {{ !hasArmor ? 'без брони' : null }}
-      <button @click="onClick">
-        {{ hasArmor ? 'Снять броню' : 'Надеть броню' }}
-      </button>
-    </p>
-    <Armor @setArmor="setArmor" :armor="person.armor" v-if="person.armor" />
+      <InputSwitch v-model="hasArmor" @click="onClick" />
+    </div>
+    <Armor
+      :setArmor="setArmor"
+      :type="person.armor.type"
+      :material="person.armor.material"
+      :materialOptions="armorMaterials"
+      :setMaterial="setArmorMaterial"
+      v-if="person.armor"
+    />
     <p v-else>О, нет 😢</p>
     <div class="characteristics">
       <p v-if="hp > 0">Здоровье {{ hp }}</p>
       <p v-else>
         Потрачено
-        <button @click="resetHp">Начать заново</button>
+        <Button @click="resetHp" class="p-button-outlined" label="Начать заново" />
       </p>
       <div v-for="characteristic in characteristics" :key="characteristic">
         {{ characteristic }}
@@ -27,7 +33,7 @@
 import { defineComponent } from '@vue/runtime-core';
 import { DummyState } from '@/store/modules/dummy';
 import { createNamespacedHelpers } from 'vuex';
-import Armor from './Armor.vue';
+import Armor from './Armor/Armor.vue';
 
 const { mapMutations, mapState, mapGetters } = createNamespacedHelpers('dummy');
 
@@ -38,10 +44,10 @@ export default defineComponent({
     ...mapState<DummyState>({
       person: (state: DummyState) => state.person,
     }),
-    ...mapGetters(['hp', 'hasArmor', 'characteristics']),
+    ...mapGetters(['hp', 'hasArmor', 'characteristics', 'armorMaterials']),
   },
   methods: {
-    ...mapMutations(['setArmor', 'wearArmor', 'takeOffArmor', 'resetHp']),
+    ...mapMutations(['setArmor', 'setArmorMaterial', 'wearArmor', 'takeOffArmor', 'resetHp']),
     onClick() {
       if (this.hasArmor) {
         this.takeOffArmor();
@@ -62,14 +68,15 @@ export default defineComponent({
 
 <style scoped>
 * {
-  color: rgb(223, 166, 18);
+  /* FIXME: will be removed */
+  color: #5fce8c;
 }
 
 button {
   color: black;
 }
 .characteristics {
-  background: rgba(236, 198, 48, 0.1);
+  background: #53296926;
   margin: 20px 0;
   border-radius: 20px;
   max-width: 350px;

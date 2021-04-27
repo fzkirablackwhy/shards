@@ -1,5 +1,5 @@
 export declare global {
-  type DamageTypeKeys = 'trustDamage' | 'сuttingDamage' | 'choppingDamage' | 'crushingDamage';
+  type DamageTypeKeys = 'stabbingDamage' | 'сuttingDamage' | 'choppingDamage' | 'crushingDamage';
   type TDamageType = { [key in DamageTypeKeys]?: number };
 
   type TCharacteristicsSum<T, M> = {
@@ -14,6 +14,8 @@ export declare global {
 
   type TLeatherMaterial = 'cow' | 'horse' | 'elephant';
   type TMetalMaterial = 'cuprum' | 'bronze' | 'iron' | 'steel' | 'carbon';
+
+  type TAllMaterials = TLeatherMaterial | TMetalMaterial;
 
   type TWeaponType =
     | 'twohandedHammer'
@@ -32,6 +34,7 @@ export declare global {
     type?: T;
     material?: M;
   };
+
   type TArmor<T, M> = {
     changeType: (type: T) => TArmor<T, M>;
     changeMaterial: (material: any) => TArmor<T, M>;
@@ -44,9 +47,42 @@ export declare global {
     material: M;
   };
   type TWeapon<T, M> = {
+    actions: TActionTemplate[] | null;
     changeType: (type: T) => TWeapon<T, M>;
     changeMaterial: (material: M) => TWeapon<T, M>;
     weaponCharacteristics: TWeaponCharacteristics<T, M> | null;
     calculateWeaponCharacteristics: () => TWeapon<T, M>;
   } & TCharacteristicsSum<T, M>;
+
+  type TActionTemplateKey =
+    | 'hitInHead'
+    | 'hitOnArmor'
+    | 'stabbing'
+    | 'deathFromAbove'
+    | 'powerfulBlow';
+
+  type TActionTemplate = {
+    key: TActionTemplateKey;
+    text: string;
+    hitChance: number | null;
+    damage: number | null;
+    percentOfDamage?: number | null;
+    possibleDeath?: boolean | null;
+    effectChance?: number | null;
+    effect?: {
+      value: string;
+      text: string;
+    };
+  };
+
+  type ActionType = {
+    hitChance?: number;
+    // объединить в один тип?
+    damage?: number;
+    percentOfDamage?: number;
+    possibleDeath?: boolean;
+    hasEffect: boolean;
+    actionKey: TActionTemplateKey;
+    effectChance?: number;
+  };
 }

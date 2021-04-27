@@ -1,7 +1,7 @@
 <template>
   <Dropdown
     :modelValue="type"
-    @change="e => onSelect(e)"
+    @change="$emit('setArmor', $event.value)"
     :options="armorOptions"
     optionLabel="text"
     optionValue="value"
@@ -17,13 +17,6 @@ export default defineComponent({
   props: {
     type: {
       type: String as PropType<TArmorType>,
-    },
-  },
-  methods: {
-    onSelect(e: any) {
-      const { value } = e;
-
-      this.$emit('setArmor', value);
     },
   },
   data() {

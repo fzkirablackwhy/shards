@@ -1,7 +1,7 @@
 <template>
   <Dropdown
     :modelValue="material"
-    @change="e => onSelect(e)"
+    @change="$emit('setMaterial', $event.value)"
     :options="options"
     optionLabel="text"
     optionValue="value"
@@ -26,12 +26,6 @@ export default defineComponent({
     onSetMaterial: {
       type: Function,
       required: true,
-    },
-  },
-  methods: {
-    onSelect(e: any) {
-      const { value } = e;
-      this.$emit('setMaterial', value);
     },
   },
 });

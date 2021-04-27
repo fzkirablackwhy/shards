@@ -1,4 +1,6 @@
 <template>
+  <h1>Игрок</h1>
+  <h3>Броня</h3>
   <Armor
     :setArmor="setArmor"
     :setMaterial="setArmorMaterial"
@@ -6,11 +8,34 @@
     :material="armor.material"
     :materialOptions="armorMaterials"
   />
-  {{ armorCharacteristics }}
+  <h3>Оружие</h3>
+  <div>
+    <Weapon
+      :type="weapon.type"
+      :material="weapon.material"
+      :materialOptions="weaponMaterials"
+      :setWeapon="changeWeaponType"
+      :setMaterial="changeWeaponMaterial"
+    />
+  </div>
+  <div class="p-d-flex card-wrapper">
+    <CardComponent
+      class="p-mr-2"
+      title="Характеристики брони"
+      :description="armorCharacteristics"
+    />
+    <CardComponent
+      class="p-mr-2"
+      title="Характеристики оружия"
+      :description="weaponCharacteristics"
+    />
+  </div>
 </template>
 <script>
 import { mapGetters, mapMutations, mapState } from 'vuex';
 import Armor from './Armor/Armor.vue';
+import CardComponent from './CardComponent.vue';
+import Weapon from './Weapon/Weapon.vue';
 
 export default {
   name: 'User',
@@ -19,15 +44,32 @@ export default {
       armor: state => state.armor,
       weapon: state => state.weapon,
     }),
-    ...mapGetters(['armorCharacteristics', 'armorMaterials']),
+    ...mapGetters([
+      'armorCharacteristics',
+      'armorMaterials',
+      'weaponMaterials',
+      'weaponCharacteristics',
+    ]),
   },
   methods: {
-    ...mapMutations(['setArmor', 'setArmorMaterial']),
+    ...mapMutations(['setArmor', 'setArmorMaterial', 'changeWeaponType', 'changeWeaponMaterial']),
   },
   components: {
     Armor,
+    Weapon,
+    CardComponent,
   },
 };
 </script>
 
-<style></style>
+<style lang="scss" scoped>
+.card-wrapper {
+  & div {
+    flex-basis: 50%;
+
+    & + div {
+      margin-left: 20px;
+    }
+  }
+}
+</style>

@@ -18,7 +18,7 @@ type TArmorProps = {
   }[];
 };
 
-export default defineComponent<{}, {}, TArmorProps, {}>({
+export default defineComponent({
   name: 'Armor',
   props: {
     type: {

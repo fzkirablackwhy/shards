@@ -2,8 +2,6 @@
   <div class="container">
     <div class="block">
       <User />
-      <Weapon @setWeapon="setWeapon" :weapon="weapon" />
-      {{ weaponCharacteristics }}
       <div>
         {{ weaponActions }}
       </div>
@@ -22,7 +20,7 @@
 import { mapGetters, mapState } from 'vuex';
 import User from './components/User.vue';
 import Dummy from './components/Dummy.vue';
-import Weapon from './components/Weapon.vue';
+import Weapon from './components/Weapon/Weapon.vue';
 
 export default {
   name: 'App',
@@ -40,24 +38,25 @@ export default {
   // },
   components: {
     User,
-    Weapon,
+    // Weapon,
     Dummy,
   },
 };
 </script>
 
-<style>
+<style lang="scss">
+@import './scss/_colors.scss';
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
 }
 body {
-  background: #211f13;
+  margin-top: 60px;
+  background: $background;
 }
+
 .red {
   color: red;
 }
@@ -65,10 +64,6 @@ body {
   color: #2fce2f;
 }
 
-select {
-  min-width: 200px;
-  margin: 0 10px;
-}
 .p-dropdown {
   width: 13rem;
   margin-right: 20px;
@@ -78,15 +73,15 @@ select {
   margin: auto 20px;
 }
 .block {
-  background: #1e1e1e;
-  color: #5fce8c;
+  text-align: left;
+  background: $blockColor;
+  color: $turquoise;
   padding: 20px;
   flex: 1 1 50%;
-  box-shadow: 0px 4px 16px rgb(0 0 0 / 10%);
+  /* box-shadow: 0px 4px 16px rgb(0 0 0 / 10%); */
   border-radius: 24px;
 }
 .block + .block {
-  background: #1e1e1e;
   margin-left: 20px;
 }
 </style>

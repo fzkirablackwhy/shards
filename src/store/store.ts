@@ -26,19 +26,15 @@ const store = createStore<State>({
   mutations: {
     setArmor(state, type) {
       state.armor = ArmorFactory.createArmor(type);
-
-      console.log(state.armor.material);
     },
     setArmorMaterial(state, material) {
-      state.armor = state.armor.changeMaterial(material);
+      state.armor.changeMaterial(material);
     },
-    setWeapon(state, args) {
-      if (args.type === 'material') {
-        state.weapon.changeMaterial(args.value);
-      }
-      if (args.type === 'type') {
-        state.weapon.changeType(args.value);
-      }
+    changeWeaponType(state, type) {
+      state.weapon.changeType(type);
+    },
+    changeWeaponMaterial(state, material) {
+      state.weapon.changeMaterial(material);
     },
     attackDummy(state) {
       // FIXME: Вынести в отдельный метод?
@@ -67,6 +63,7 @@ const store = createStore<State>({
     weaponCharacteristics: state => mapWeaponCharacteristics(state.weapon.weaponCharacteristics),
     weaponActions: state => state.weapon.actions,
     armorMaterials: state => getMaterialsByType(state.armor.type),
+    weaponMaterials: state => getMaterialsByType(state.weapon.type),
   },
 });
 

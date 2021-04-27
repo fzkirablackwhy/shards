@@ -14,7 +14,7 @@ const damageTypeKeys: DamageTypeKeys[] = [
   'crushingDamage',
 ];
 
-export const getDefaultMaterial = (type: TArmorType): TLeatherMaterial | TMetalMaterial => {
+export const getDefaultMaterial = (type: TArmorType): TAllMaterials => {
   switch (type) {
     case 'leather':
     case 'lamellar':
@@ -23,7 +23,8 @@ export const getDefaultMaterial = (type: TArmorType): TLeatherMaterial | TMetalM
       return 'cuprum';
   }
 };
-export const getCharacteristicsByMaterial = <M extends TLeatherMaterial | TMetalMaterial>(
+
+export const getCharacteristicsByMaterial = <M extends TAllMaterials>(
   material: M,
   name: string,
 ) => {

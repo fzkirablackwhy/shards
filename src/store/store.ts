@@ -5,10 +5,11 @@ import { calculateDamage, getHitChance } from '@/database/utils/utils';
 import { preventNegativeNum } from '@/database/utils/heplpers';
 import { ArmorFactory, WeaponFactory } from '@/database/main';
 import { mapArmorCharacteristics, mapWeaponCharacteristics } from '@/utils/mappers';
+import { getMaterialsByType } from '@/database/utils/getMaterialsByType';
 
 export type State = {
   dummy?: DummyState;
-  armor: TArmor<TArmorType, TMetalMaterial | TLeatherMaterial>;
+  armor: TArmor<TArmorType, TAllMaterials>;
   weapon: TWeapon<TWeaponType, TMetalMaterial>;
   hitChance: boolean | null;
 };
@@ -23,14 +24,13 @@ const store = createStore<State>({
     hitChance: null,
   }),
   mutations: {
-    setArmor(state, args) {
-      if (args.type === 'material') {
-        state.armor.changeMaterial(state.armor.type);
-      }
-      if (args.type === 'type') {
-        const armor = ArmorFactory.createArmor(args.value);
-        state.armor = armor;
-      }
+    setArmor(state, type) {
+      state.armor = ArmorFactory.createArmor(type);
+
+      console.log(state.armor.material);
+    },
+    setArmorMaterial(state, material) {
+      state.armor = state.armor.changeMaterial(material);
     },
     setWeapon(state, args) {
       if (args.type === 'material') {
@@ -42,7 +42,7 @@ const store = createStore<State>({
     },
     attackDummy(state) {
       // FIXME: Вынести в отдельный метод?
-      if (state.weapon?.weaponCharacteristics && state.dummy?.person) {
+      if (state.weapon.weaponCharacteristics && state.dummy?.person) {
         const { weaponCharacteristics } = state.weapon;
         const { armorCharacteristics } = state.dummy.person;
 
@@ -66,6 +66,7 @@ const store = createStore<State>({
     armorCharacteristics: state => mapArmorCharacteristics(state.armor.armorCharacteristics),
     weaponCharacteristics: state => mapWeaponCharacteristics(state.weapon.weaponCharacteristics),
     weaponActions: state => state.weapon.actions,
+    armorMaterials: state => getMaterialsByType(state.armor.type),
   },
 });
 

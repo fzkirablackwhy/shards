@@ -15,7 +15,7 @@ declare module '@vue/runtime-core' {
   // declare your own store states
   interface State {
     dummy: DummyState
-    armor: TArmor<TArmorType, TMetalMaterial | TLeatherMaterial> | null;
+    armor: TArmor<TArmorType, TAllMaterials> | null;
     weapon: TWeapon<TWeaponType, TMetalMaterial>
   }
 

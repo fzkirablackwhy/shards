@@ -1,7 +1,6 @@
 import { getCharacteristicsByMaterial } from './utils/utils';
 
-export class CharacteristicsSum<T, M extends TLeatherMaterial | TMetalMaterial>
-  implements TCharacteristicsSum<T, M> {
+export class CharacteristicsSum<T, M extends TAllMaterials> implements TCharacteristicsSum<T, M> {
   type: T;
   name?: string;
   material: M;

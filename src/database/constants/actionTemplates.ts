@@ -46,7 +46,7 @@ export const actionTemplatesMap = new Map<TActionTemplateKey, TActionTemplate>([
       damage: 70,
       effect: {
         value: 'bleeding',
-        text: 'кровотечение',
+        text: 'ЧТО_ТО СТРАННОЕ',
       },
     },
   ],
@@ -60,7 +60,7 @@ export const actionTemplatesMap = new Map<TActionTemplateKey, TActionTemplate>([
       percentOfDamage: 30,
       effect: {
         value: 'bleeding',
-        text: 'ЧТО_ТО СТРАННОЕ',
+        text: 'кровотечение',
       },
     },
   ],

@@ -25,10 +25,10 @@
     "src/**/*.tsx",
     "src/**/*.vue",
     "tests/**/*.ts",
-    "tests/**/*.tsx",
-    "src/types/defs/ global.d.ts",
-    // "src/types/defs/**/*",
-    "src/database/main.ts"
+    "tests/**/*.tsx"
+    // "src/types/defs/ global.d.ts",
+    // // "src/types/defs/**/*",
+    // "src/database/main.ts"
   ],
   "exclude": ["node_modules"]
 }

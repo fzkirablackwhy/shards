@@ -4,9 +4,11 @@
     <p>
       Броня на манекене:
       {{ !hasArmor ? 'без брони' : null }}
-      <button @click="onClick">
-        {{ hasArmor ? 'Снять броню' : 'Надеть броню' }}
-      </button>
+      <Button
+        @click="onClick"
+        class="p-button-outlined"
+        :label="hasArmor ? 'Снять броню' : 'Надеть броню'"
+      />
     </p>
     <Armor @setArmor="setArmor" :armor="person.armor" v-if="person.armor" />
     <p v-else>О, нет 😢</p>
@@ -14,7 +16,7 @@
       <p v-if="hp > 0">Здоровье {{ hp }}</p>
       <p v-else>
         Потрачено
-        <button @click="resetHp">Начать заново</button>
+        <Button @click="resetHp" class="p-button-outlined" label="Начать заново" />
       </p>
       <div v-for="characteristic in characteristics" :key="characteristic">
         {{ characteristic }}
@@ -27,7 +29,7 @@
 import { defineComponent } from '@vue/runtime-core';
 import { DummyState } from '@/store/modules/dummy';
 import { createNamespacedHelpers } from 'vuex';
-import Armor from './Armor.vue';
+import Armor from './Armor/ArmorSelect.vue';
 
 const { mapMutations, mapState, mapGetters } = createNamespacedHelpers('dummy');
 
@@ -62,14 +64,14 @@ export default defineComponent({
 
 <style scoped>
 * {
-  color: rgb(223, 166, 18);
+  color: #5fce8c;
 }
 
 button {
   color: black;
 }
 .characteristics {
-  background: rgba(236, 198, 48, 0.1);
+  background: #53296926;
   margin: 20px 0;
   border-radius: 20px;
   max-width: 350px;

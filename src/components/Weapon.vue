@@ -1,25 +1,21 @@
 <template>
   <div class="weapon">
-    <select @input="e => onSelect(e, 'type')">
-      <option
-        v-for="option in weaponOptions"
-        :value="option.value"
-        :key="option.value"
-        :selected="option.value === weapon.type"
-      >
-        {{ option.text }}
-      </option>
-    </select>
-    <select @input="e => onSelect(e, 'material')">
-      <option
-        v-for="option in weaponMaterials"
-        :value="option.value"
-        :key="option.value"
-        :selected="option.value === weapon.material"
-      >
-        {{ option.text }}
-      </option>
-    </select>
+    <Dropdown
+      v-model="type"
+      @change="e => onSelect(e, 'type')"
+      :options="weaponOptions"
+      optionLabel="text"
+      optionValue="value"
+      placeholder="Выберите оружие"
+    />
+    <Dropdown
+      v-model="material"
+      @change="e => onSelect(e, 'material')"
+      :options="weaponMaterials"
+      optionLabel="text"
+      optionValue="value"
+      placeholder="Выберите материал"
+    />
   </div>
 </template>
 
@@ -41,11 +37,19 @@ export default defineComponent({
   },
   methods: {
     onSelect(e: any, type: any) {
-      this.$emit('setWeapon', { value: e.target.value, type });
+      if (type === 'type') {
+        this.type = e.value;
+      } else {
+        console.log(e, 'e');
+        this.material = e.value;
+      }
+      this.$emit('setWeapon', { value: e.value, type });
     },
   },
   data() {
     return {
+      type: null,
+      material: null,
       weaponMaterials: metalMaterialOptions,
       weaponOptions,
     };
@@ -55,9 +59,6 @@ export default defineComponent({
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 
 <style scoped>
-.weapon {
-  background: antiquewhite;
-}
 select {
 }
 h3 {

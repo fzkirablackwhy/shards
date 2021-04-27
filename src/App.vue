@@ -1,9 +1,7 @@
 <template>
-  <!-- <img alt="Vue logo" src="./assets/logo.png" /> -->
   <div class="container">
     <div class="block">
-      <Armor @setArmor="setArmor" :armor="armor" />
-      {{ armorCharacteristics }}
+      <User />
       <Weapon @setWeapon="setWeapon" :weapon="weapon" />
       {{ weaponCharacteristics }}
       <div>
@@ -12,7 +10,7 @@
     </div>
     <div class="block">
       <Dummy />
-      <button @click="attackDummy">ATTACK!</button>
+      <Button label="ATTACK" @click="attackDummy" />
       <p :class="hitChance ? 'green' : 'red'">
         Состояние удара:
         <span>{{ hitState }}</span>
@@ -21,8 +19,8 @@
   </div>
 </template>
 <script>
-import { mapGetters, mapMutations, mapState } from 'vuex';
-import Armor from './components/Armor.vue';
+import { mapGetters, mapState } from 'vuex';
+import User from './components/User.vue';
 import Dummy from './components/Dummy.vue';
 import Weapon from './components/Weapon.vue';
 
@@ -36,11 +34,12 @@ export default {
     }),
     ...mapGetters(['armorCharacteristics', 'weaponCharacteristics', 'hitState', 'weaponActions']),
   },
-  methods: {
-    ...mapMutations(['setArmor', 'setWeapon', 'attackDummy']),
-  },
+  // methods: {
+  //   // FIXME: вынести!
+  //   ...mapMutations(['setArmor', 'setArmorMaterial', 'setWeapon', 'attackDummy']),
+  // },
   components: {
-    Armor,
+    User,
     Weapon,
     Dummy,
   },
@@ -65,25 +64,29 @@ body {
 .green {
   color: #2fce2f;
 }
-.hit-state {
-}
+
 select {
   min-width: 200px;
   margin: 0 10px;
+}
+.p-dropdown {
+  width: 13rem;
+  margin-right: 20px;
 }
 .container {
   display: flex;
   margin: auto 20px;
 }
 .block {
-  background: #fff;
+  background: #1e1e1e;
+  color: #5fce8c;
   padding: 20px;
   flex: 1 1 50%;
   box-shadow: 0px 4px 16px rgb(0 0 0 / 10%);
   border-radius: 24px;
 }
 .block + .block {
-  background: #222831;
+  background: #1e1e1e;
   margin-left: 20px;
 }
 </style>

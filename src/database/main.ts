@@ -14,6 +14,7 @@ export class ArmorFactory {
     if (!material) {
       material = getDefaultMaterial(type) as M;
     }
+    console.log(material, 'material');
     if (!type) {
       throw new Error('Тип данной брони еще не существует!');
     }

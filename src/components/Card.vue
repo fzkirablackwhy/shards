@@ -1,36 +1,34 @@
 <template>
   <div>
-    <select @input="e => onSelect(e, 'type')">
-      <option
-        v-for="option in armorOptions"
-        :value="option.value"
-        :key="option.value"
-        :selected="option.value === type"
-      >
-        {{ option.text }}
-      </option>
-    </select>
-    <select @input="e => onSelect(e, 'material')">
-      <option
-        v-for="option in armorMaterials"
-        :value="option.value"
-        :key="option.value"
-        :selected="option.value === armor?.material"
-      >
-        {{ option.text }}
-      </option>
-    </select>
+    <Dropdown
+      v-model="type"
+      @change="e => onSelect(e, 'type')"
+      :options="armorOptions"
+      optionLabel="text"
+      optionValue="value"
+      placeholder="Выберите доспех"
+    />
+
+    <Dropdown
+      v-model="material"
+      @change="e => onSelect(e, 'material')"
+      :options="armorMaterials"
+      optionLabel="text"
+      optionValue="value"
+      placeholder="Выберите материал"
+    />
   </div>
 </template>
 <script lang="ts">
 import { defineComponent, PropType } from '@vue/runtime-core';
+import Dropdown from 'primevue/dropdown/';
 import { armorOptions, leatherMaterialOptions, metalMaterialOptions } from './options';
 
 export default defineComponent({
   name: 'Armor',
   props: {
     armor: {
-      type: Object as PropType<TArmor<TArmorType, TMetalMaterial | TLeatherMaterial>>,
+      type: Object as PropType<TArmor<TArmorType, TAllMaterials>>,
     },
     onSetArmor: {
       type: Function,
@@ -52,31 +50,27 @@ export default defineComponent({
   },
   methods: {
     onSelect(e: any, type: 'type' | 'material') {
-      this.$emit('setArmor', { value: e.target.value, type });
+      if (type === 'type') {
+        this.type = e.value;
+      } else {
+        console.log(e, 'e');
+        this.material = e.value;
+      }
+      this.$emit('setArmor', { value: e.value, type });
     },
   },
   data() {
     return {
+      // FIXME: separate components
+      material: null,
       type: null,
       armorOptions,
     };
   },
+  components: {
+    Dropdown,
+  },
 });
 </script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
-</style>
+<style lang="scss" scoped></style>

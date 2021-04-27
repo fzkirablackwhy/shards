@@ -15,6 +15,8 @@ export declare global {
   type TLeatherMaterial = 'cow' | 'horse' | 'elephant';
   type TMetalMaterial = 'cuprum' | 'bronze' | 'iron' | 'steel' | 'carbon';
 
+  type TAllMaterials = TLeatherMaterial | TMetalMaterial;
+
   type TWeaponType =
     | 'twohandedHammer'
     | 'twoHandedSpear'

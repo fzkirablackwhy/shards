@@ -17,28 +17,23 @@
   </div>
 </template>
 <script>
-import { mapGetters, mapState } from 'vuex';
+import { mapGetters, mapMutations, mapState } from 'vuex';
 import User from './components/User.vue';
 import Dummy from './components/Dummy.vue';
-import Weapon from './components/Weapon/Weapon.vue';
 
 export default {
   name: 'App',
   computed: {
     ...mapState({
-      weapon: state => state.weapon,
-      armor: state => state.armor,
       hitChance: state => state.hitChance,
     }),
-    ...mapGetters(['armorCharacteristics', 'weaponCharacteristics', 'hitState', 'weaponActions']),
+    ...mapGetters(['hitState', 'weaponActions']),
   },
-  // methods: {
-  //   // FIXME: вынести!
-  //   ...mapMutations(['setArmor', 'setArmorMaterial', 'setWeapon', 'attackDummy']),
-  // },
+  methods: {
+    ...mapMutations(['attackDummy']),
+  },
   components: {
     User,
-    // Weapon,
     Dummy,
   },
 };
